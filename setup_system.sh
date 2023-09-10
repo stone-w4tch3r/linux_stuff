@@ -1,3 +1,5 @@
+return 0
+
 ####
 #init
 ####
@@ -53,11 +55,15 @@ options hid_apple rightalt_as_rightctrl=1
 #options hid_apple ejectcd_as_delete=1
 EOF
 
-#for remapping eject to delete, 'Input Remapper' can be used
-
 #apply config
 sudo update-initramfs -u
 sudo modprobe -r hid_apple; sudo modprobe hid_apple
+
+#for remapping eject to delete, 'Input Remapper' can be used
+sudo apt install git python3-setuptools gettext
+git clone https://github.com/sezanzeb/input-remapper.git
+cd input-remapper && ./scripts/build.sh
+sudo apt install -f ./dist/input-remapper-2.0.0.deb
 
 ####
 #install java jre for xamarin-android
@@ -172,3 +178,16 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 && sudo apt update \
 && sudo apt install gh -y
+
+####
+#steam scaling
+####
+
+echo "STEAM_FORCE_DESKTOPUI_SCALING='2'" | sudo tee -a /etc/environment
+#logout
+
+####
+#linux gaming
+####
+
+#https://dtf.ru/flood/1110882-igraem-na-linukse-ubuntu-lutris-wine-ge-custom-proton
