@@ -4,7 +4,7 @@ return 0
 #init
 ####
 sudo apt update && sudo apt upgrade -y && sudo apt install neofetch -y
-sudo apt install git curl network-manager-openvpn -y
+sudo apt install git curl network-manager-openvpn net-tools -y
 sudo apt install -y vlc
 sudo apt purge --autoremove -y libreoffice*
 sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg
@@ -191,3 +191,25 @@ echo "STEAM_FORCE_DESKTOPUI_SCALING='2'" | sudo tee -a /etc/environment
 ####
 
 #https://dtf.ru/flood/1110882-igraem-na-linukse-ubuntu-lutris-wine-ge-custom-proton
+
+####
+#mitmproxy
+####
+
+#install 8.1.1.1-2 (unstable) from ubuntu repos online
+
+####
+#waydroid
+####
+
+sudo apt install curl ca-certificates -y
+curl https://repo.waydro.id | sudo bash
+sudo apt install waydroid -y
+
+####
+#speedtest
+####
+
+sudo apt-get install curl
+curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+sudo apt-get install speedtest
