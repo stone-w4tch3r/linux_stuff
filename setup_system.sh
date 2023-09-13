@@ -4,10 +4,10 @@ return 0
 #init
 ####
 sudo apt update && sudo apt upgrade -y && sudo apt install neofetch -y
-sudo apt install git curl network-manager-openvpn net-tools -y
+sudo apt install git curl network-manager-openvpn net-tools fortune cowsay -y
 sudo apt install -y vlc
 sudo apt purge --autoremove -y libreoffice*
-sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg
+sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg #kde
 sudo snap install rider webstorm datagrip bitwarden
 
 ####
@@ -210,6 +210,6 @@ sudo apt install waydroid -y
 #speedtest
 ####
 
-sudo apt-get install curl
+sudo apt-get install -y curl
 curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
 sudo apt-get install speedtest
