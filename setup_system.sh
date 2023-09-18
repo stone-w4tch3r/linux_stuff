@@ -4,10 +4,10 @@ return 0
 #init
 ####
 sudo apt update && sudo apt upgrade -y && sudo apt install neofetch -y
-sudo apt install git curl network-manager-openvpn net-tools fortune cowsay silversearcher-ag -y
-sudo apt install -y vlc
 sudo apt purge --autoremove -y libreoffice*
 sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg #kde
+sudo apt install git curl network-manager-openvpn net-tools fortune cowsay silversearcher-ag libreoffice-common -y
+sudo apt install -y vlc
 sudo snap install rider webstorm datagrip bitwarden
 
 ####
