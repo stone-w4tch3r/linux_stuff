@@ -207,14 +207,6 @@ curl https://repo.waydro.id | sudo bash
 sudo apt install waydroid -y
 
 ####
-#speedtest
-####
-
-sudo apt-get install -y curl
-curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
-sudo apt-get install speedtest
-
-####
 #mono
 ####
 
