@@ -6,7 +6,7 @@ return 0
 sudo apt update && sudo apt upgrade -y && sudo apt install neofetch -y
 sudo apt purge --autoremove -y libreoffice*
 sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg #kde
-sudo apt install git curl network-manager-openvpn net-tools fortune cowsay silversearcher-ag libreoffice-common -y
+sudo apt install git curl network-manager-openvpn net-tools fortune cowsay silversearcher-ag libreoffice-calc-nogui -y
 sudo apt install -y vlc
 sudo snap install rider webstorm datagrip bitwarden
 
