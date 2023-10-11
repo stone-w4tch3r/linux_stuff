@@ -199,12 +199,19 @@ echo "STEAM_FORCE_DESKTOPUI_SCALING='2'" | sudo tee -a /etc/environment
 #install 8.1.1.1-2 (unstable) from ubuntu repos online
 
 ####
-#waydroid
+#waydroid (android vm)
 ####
 
 sudo apt install curl ca-certificates -y
 curl https://repo.waydro.id | sudo bash
 sudo apt install waydroid -y
+
+####
+#waydroid settings GUI
+####
+
+sudo apt install gir1.2-vte-2.91 gir1.2-webkit2-4.0 -y
+wget -O - https://raw.githubusercontent.com/axel358/Waydroid-Settings/main/install.sh | bash
 
 ####
 #mono
