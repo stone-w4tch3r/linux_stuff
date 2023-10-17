@@ -240,3 +240,12 @@ wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.g
 echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
     | sudo tee /etc/apt/sources.list.d/vscodium.list
 sudo apt update && sudo apt install codium
+
+####
+#disable ipv6
+####
+
+echo 1 | sudo tee -a /proc/sys/net/ipv6/conf/all/disable_ipv6
+echo 1 | sudo tee -a /proc/sys/net/ipv6/conf/default/disable_ipv6
+echo "net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.d/98-disable-ipv6.conf
