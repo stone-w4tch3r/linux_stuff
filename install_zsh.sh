@@ -2,8 +2,8 @@
 
 #use on target ubuntu (non-interactive?)
 
-sudo appt update
-sudo apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions || return 1
+sudo apt update
+sudo apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions || exit 1
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 chsh -s "$(which zsh)"
