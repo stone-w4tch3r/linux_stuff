@@ -4,8 +4,7 @@
 
 sudo apt update
 sudo apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions || exit 1
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 chsh -s "$(which zsh)"
 sudo chsh -s "$(which zsh)"
 
