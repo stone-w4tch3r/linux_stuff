@@ -2,6 +2,7 @@
 
 #use on target ubuntu (non-interactive?)
 
+sudo appt update
 sudo apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions || return 1
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
@@ -21,6 +22,8 @@ rm -rfd ~/fonts_for_zsh
 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/themes/powerlevel10k
 sed -i 's|ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|g' ~/.zshrc
+echo "# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" |tee -a ~/.zshrc
 cp configs/p10k.zsh ~/.p10k.zsh
 
 echo 'alias gitignore=gi' | tee -a ~/.zshrc
