@@ -14,5 +14,14 @@ echo 'alias cat=ccat' | tee -a ~/.zshrc
 echo 'alias less=cless' | tee -a ~/.zshrc
 echo 'zic_case_insensitive=true' | sudo tee -a /etc/environment #case-insensitive interactive cd
 
+wget -P \
+    ~/fonts_for_zsh https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf \
+    ~/fonts_for_zsh https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf \
+    ~/fonts_for_zsh https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf \
+    ~/fonts_for_zsh https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+sudo mv ~/fonts_for_zsh/* /usr/local/share/fonts
+rm -rfd ~/fonts_for_zsh
+
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 sed -i 's|ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|g' ~/.zshrc
+cp configs/p10k.zsh ~/.p10k.zsh
