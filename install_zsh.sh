@@ -3,7 +3,7 @@
 #use on target ubuntu (non-interactive?)
 
 sudo apt update
-sudo apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions || exit 1
+sudo apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions thefuck || exit 1
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 chsh -s "$(which zsh)"
 sudo chsh -s "$(which zsh)"
@@ -30,3 +30,4 @@ echo 'alias cat=ccat' | tee -a ~/.zshrc
 echo 'alias less=cless' | tee -a ~/.zshrc
 echo "alias git_cp='echo -n "commit message: " && read -r message && echo \$message | git add . && git commit -m \$message && git push'" \
     | tee -a ~/.zshrc
+echo 'eval "$(thefuck -a)"' | tee -a ~/.zshrc
