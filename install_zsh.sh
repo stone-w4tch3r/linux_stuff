@@ -8,7 +8,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 chsh -s "$(which zsh)"
 sudo chsh -s "$(which zsh)"
 
-sed -i 's|plugins=.*|plugins=(git dotnet adb ag ansible battery cake chucknorris colored-man-pages colorize command-not-found docker docker-compose emoji emoji-clock extract gh gitignore hitchhiker multipass npm  pip safe-paste sudo ubuntu ufw zsh-interactive-cd)|g' ~/.zshrc
+sed -i 's|plugins=.*|plugins=(git dotnet adb ag ansible chucknorris colored-man-pages colorize command-not-found docker docker-compose emoji emoji-clock extract gh gitignore hitchhiker multipass npm  pip safe-paste sudo ubuntu ufw zsh-interactive-cd)|g' ~/.zshrc
 echo 'zic_case_insensitive=true' | sudo tee -a /etc/environment #case-insensitive interactive cd
 
 wget -P \
