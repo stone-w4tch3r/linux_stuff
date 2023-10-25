@@ -6,3 +6,38 @@ packages:
   - zsh-syntax-highlighting
   - zsh-autosuggestions 
   - thefuck
+
+plugins_minimal:
+  - git
+  - ag
+  - colored-man-pages
+  - colorize
+  - command-not-found
+  - docker
+  - docker-compose
+  - debian # if debian
+  - npm
+  - pip
+  - extract # archives
+  - safe-paste # prevents pasted code from running
+  - sudo # esc-esc
+  - ubuntu # if ubuntu
+  - ufw
+  - zsh-interactive-cd
+
+plugins_extended: # (for desktop)
+  - dotnet
+  - adb
+  - ansible
+  - chucknorris
+  - emoji # get emoji as $emoji[name]
+  - gh
+  - gitignore
+  - hitchhiker
+  - multipass
+
+fonts_links:
+  - https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+  - https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+  - https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+  - https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf

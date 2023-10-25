@@ -4,3 +4,81 @@
   apt:
     name: "{{ packages }}"
     state: present
+
+- name: Install oh-my-zsh
+  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  args:
+    creates: /home/{{ ansible_user }}/.oh-my-zsh
+
+- name: Set shell to zsh
+  become: true
+  user:
+    name: "{{ ansible_user }}"
+    shell: /bin/zsh
+
+- name: Prepare plugins list
+  set_fact:
+    plugins: "{{ plugins_minimal }}"
+
+- name: Use extended plugins list
+  set_fact:
+    plugins: "{{ plugins + plugins_extended }}"
+  tags: never, extended
+
+- name: Add plugins to .zshrc {{ plugins }}
+  lineinfile:
+    path: /home/{{ ansible_user }}/.zshrc
+    regexp: "^plugins="
+    line: "plugins=({{ plugins | join(' ') }})"
+    state: present
+
+- name: Get .zshrc
+  command: cat /home/{{ ansible_user }}/.zshrc
+  register: zshrc
+  changed_when: false
+
+- name: Assert no duplicated lines
+  assert:
+    that:
+      - zshrc.stdout_lines | select('match', '^plugins=') | list | count == 1
+    fail_msg: "Duplicated 'plugin' lines in .zshrc"
+
+- name: Enable case-insensitive interactive cd
+  become: true
+  lineinfile:
+    path: /etc/environment
+    line: zic_case_insensitive=true
+    state: present
+
+- name: Download fonts {{ fonts_links }}
+  with_items: "{{ fonts_links }}"
+  get_url:
+    url: "{{ item }}"
+    dest: /tmp
+    mode: "0644"
+  register: fonts_downloaded
+  tags: never, extended
+
+- name: Install fonts
+  become: true
+  with_items: "{{ fonts_downloaded.results }}"
+  copy:
+    src: "{{ item.dest }}"
+    remote_src: true
+    dest: /usr/share/fonts/truetype/
+    mode: "0644"
+  tags: never, extended
+
+- name: Install powerlevel10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: /home/{{ ansible_user }}/.oh-my-zsh/custom/themes/powerlevel10k
+    depth: 1
+
+- name: Set zsh theme
+  become: true
+  lineinfile:
+    path: /home/{{ ansible_user }}/.zshrc
+    regexp: "^ZSH_THEME="
+    line: "ZSH_THEME=\"powerlevel10k/powerlevel10k\""
+    state: present

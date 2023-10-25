@@ -5,3 +5,4 @@ skip_list:
   - 'yaml[new-line-at-end-of-file]'
   - 'yaml[empty-lines]'
   - 'name[casing]'
+  - 'git[latest]

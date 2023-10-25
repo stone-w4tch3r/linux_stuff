@@ -21,13 +21,22 @@ rm -rfd ~/fonts_for_zsh
 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/themes/powerlevel10k
 sed -i 's|ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|g' ~/.zshrc
-echo "# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" |tee -a ~/.zshrc
+echo "
+# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+" \
+    >> ~/.zshrc
 cp configs/p10k.zsh ~/.p10k.zsh
 
-echo 'alias gitignore=gi' | tee -a ~/.zshrc
-echo 'alias cat=ccat' | tee -a ~/.zshrc
-echo 'alias less=cless' | tee -a ~/.zshrc
-echo "alias git_cp='echo -n "commit message: " && read -r message && echo \$message | git add . && git commit -m \$message && git push'" \
-    | tee -a ~/.zshrc
-echo "eval \$(thefuck -a)" | tee -a ~/.zshrc
+echo "
+alias gitignore=gi
+alias cat=ccat
+alias less=cless
+alias codium='NODE_OPTIONS='' codium --enable-features=UseOzonePlatform --ozone-platform=wayland'
+alias git_cp='echo -n "commit message: " && read -r message && echo \$message | git add . && git commit -m \$message && git push'
+eval \$(thefuck -a)
+# FOR SYNTAX-HIGHLIGHTING TO WORK, THIS LINE MUST LAST
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+" \
+    >> ~/.zshrc
+
