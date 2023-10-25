@@ -1,0 +1,6 @@
+---
+- name: Install packages {{ packages }}
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present

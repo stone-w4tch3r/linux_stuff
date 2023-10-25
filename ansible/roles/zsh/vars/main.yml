@@ -1,0 +1,8 @@
+---
+packages:
+  - git-core 
+  - zsh
+  - fzf
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions 
+  - thefuck

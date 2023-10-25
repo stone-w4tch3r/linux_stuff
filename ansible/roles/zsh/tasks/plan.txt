@@ -1,5 +1,4 @@
----
-# this is ansibl version of the script
+# this is ansible version of the script
 # configures zsh on target machine
 # 1. apt update
 # 2. apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions thefuck
