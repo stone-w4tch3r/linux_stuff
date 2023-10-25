@@ -2,6 +2,7 @@
 - name: Install packages {{ packages }}
   become: true
   apt:
+    update_cache: true
     name: "{{ packages }}"
     state: present
 
