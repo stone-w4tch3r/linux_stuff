@@ -77,9 +77,48 @@
     depth: 1
 
 - name: Set zsh theme
-  become: true
   lineinfile:
     path: /home/{{ ansible_user }}/.zshrc
     regexp: "^ZSH_THEME="
     line: "ZSH_THEME=\"powerlevel10k/powerlevel10k\""
     state: present
+
+- name: Add powerlevel10k lines to .zshrc
+  blockinfile:
+    path: /home/{{ ansible_user }}/.zshrc
+    block: |
+      # To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.
+      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+    marker: "#### {mark} POWERLEVEL ANSIBLE MANAGED BLOCK ####"
+    state: present
+
+- name: Copy .p10k.server.zsh
+  copy:
+    src: p10k.server.zsh
+    dest: /home/{{ ansible_user }}/.p10k.zsh
+    mode: "0644"
+  when: "'extended' not in ansible_run_tags"
+
+- name: Copy .p10k.zsh
+  copy:
+    src: p10k.zsh
+    dest: /home/{{ ansible_user }}/.p10k.zsh
+    mode: "0644"
+  tags: never, extended
+
+- name: Set aliases
+  blockinfile:
+    path: /home/{{ ansible_user }}/.zshrc
+    block: |
+      alias gitignore=gi
+      alias cat=ccat
+      alias less=cless
+      alias codium='NODE_OPTIONS='' codium --enable-features=UseOzonePlatform --ozone-platform=wayland'
+      alias git_cp='echo -n "commit message: " && read -r message && echo \$message | git add . && git commit -m \$message && git push'
+      eval \$(thefuck -a)
+      # FOR SYNTAX-HIGHLIGHTING TO WORK, THIS LINE MUST LAST UNCOMMENTED
+      source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    marker: "#### {mark} ALIASES ANSIBLE MANAGED BLOCK ####"
+    state: present
+
+  
