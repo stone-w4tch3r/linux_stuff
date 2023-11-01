@@ -249,3 +249,12 @@ echo 1 | sudo tee -a /proc/sys/net/ipv6/conf/all/disable_ipv6
 echo 1 | sudo tee -a /proc/sys/net/ipv6/conf/default/disable_ipv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.d/98-disable-ipv6.conf
+
+####
+#latest yt-dlp
+####
+
+sudo add-apt-repository ppa:tomtomtom/yt-dlp    # Add ppa repo to apt
+sudo apt update                                 # Update package list
+sudo apt install yt-dlp                         # Install yt-dlp
+
