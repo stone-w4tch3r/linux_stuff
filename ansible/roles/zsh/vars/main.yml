@@ -41,3 +41,18 @@ fonts_links:
   - https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
   - https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
   - https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+  
+aliases_extended:
+  - "
+  alias gitignore=gi
+  alias codium='NODE_OPTIONS='' codium --enable-features=UseOzonePlatform --ozone-platform=wayland'
+  alias multipass_recreate-primary='. ~/Projects/devops/scripts/multipass/recreate_multipass_primary.sh'
+  "
+  
+aliases_basic: # (for desktop)
+  - "
+  alias cat=ccat
+  alias less=cless
+  alias git_cp='echo -n commit message:  && read -r message && echo $message | git add . && git commit -m $message && git push'
+  eval $(thefuck -a)
+  "
