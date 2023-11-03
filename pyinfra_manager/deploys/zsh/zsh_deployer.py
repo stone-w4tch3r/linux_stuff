@@ -2,7 +2,7 @@ from enum import Enum
 
 from pyinfra.operations import server
 
-from pyinfra_manager.deploys.zsh.vars import shell_vars
+from deploys.zsh.vars import shell_vars
 
 
 class ZshConfig(Enum):
@@ -14,6 +14,7 @@ def deploy_zsh(zsh_config: ZshConfig) -> None:
     server.packages(
         name="Install packages",
         packages=shell_vars.Packages,
+        sudo=True,
     )
 
     server.shell(
