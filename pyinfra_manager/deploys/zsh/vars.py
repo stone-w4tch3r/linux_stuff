@@ -3,19 +3,23 @@ from dataclasses import dataclass
 
 # region dataclasses
 @dataclass
-class ShellVars:
+class ZshDeployVars:
     Packages: list[str]
     AliasesBasic: list[str]
     AliasesExtended: list[str]
     ZshPluginsBasic: list[str]
     ZshPluginsExtended: list[str]
     FontsLinks: list[str]
+    DebianPlugins: list[str]
+    UbuntuPlugins: list[str]
+
+
 # endregion
 
 
-shell_vars = ShellVars(
+zsh_vars = ZshDeployVars(
     Packages=[
-        "git-core",
+        "git",
         "zsh",
         "fzf",
         "zsh-syntax-highlighting",
@@ -48,9 +52,6 @@ shell_vars = ShellVars(
         "sudo",  # esc-esc
         "ufw",
         "zsh-interactive-cd",
-        # TODO move to other place
-        "ubuntu",  # if ubuntu
-        "debian",  # if debian
     ],
     ZshPluginsExtended=[
         "dotnet",
@@ -68,5 +69,11 @@ shell_vars = ShellVars(
         "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf",
         "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf",
         "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf",
+    ],
+    DebianPlugins=[
+        "debian",
+    ],
+    UbuntuPlugins=[
+        "ubuntu",
     ],
 )
