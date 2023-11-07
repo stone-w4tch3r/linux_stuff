@@ -25,6 +25,7 @@ zsh_vars = ZshDeployVars(
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
         "thefuck",
+        "fortune-mod",  # correct name for 'fortune'
     ],
     AliasesBasic=[
         "alias cat=ccat",

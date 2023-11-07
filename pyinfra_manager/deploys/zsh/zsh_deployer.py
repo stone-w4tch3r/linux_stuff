@@ -13,7 +13,17 @@ class ZshConfig(Enum):
     Extended = 1
 
 
+def assert_zsh_plugins_correct(state, host, _home_dir: str) -> None:
+    found_plugin_lines = host.get_fact(facts_files.FindInFile, f"{_home_dir}/.zshrc", "^plugins=.*")
+    if found_plugin_lines is None:
+        python.raise_exception(Exception, f"Could not find line with 'plugins=' in {_home_dir}/.zshrc")
+    elif len(found_plugin_lines) != 1:
+        python.raise_exception(Exception, f"Found {len(found_plugin_lines)} lines with 'plugins=' in {_home_dir}/.zshrc")
+
+
 def deploy_zsh(zsh_config: ZshConfig) -> None:
+    _home_dir = f"/home/{host.get_fact(facts_server.User)}"
+
     apt.update(
         cache_time=86400,
         _sudo=True,
@@ -25,14 +35,7 @@ def deploy_zsh(zsh_config: ZshConfig) -> None:
         _sudo=True,
     )
 
-    # res = host.get_fact(
-    #     FindInFile,
-    #     path="/home/ubuntu/.zshrc",
-    #     pattern='^.*plugins=.*.*$',
-    #     interpolate_variables=False,
-    # )
-
-    if not host.get_fact(files.Directory, "~/.oh-my-zsh"):
+    if not host.get_fact(files.Directory, f"{_home_dir}/.oh-my-zsh"):
         server.shell(
             name="Install oh-my-zsh",
             commands=[
@@ -51,18 +54,17 @@ def deploy_zsh(zsh_config: ZshConfig) -> None:
     plugins = " ".join(zsh_vars.ZshPluginsBasic) \
         if zsh_config == ZshConfig.Extended \
         else " ".join(zsh_vars.ZshPluginsBasic + zsh_vars.ZshPluginsExtended)
-
-    files.line(
+    plugins_editing_result = files.line(
         name=f"Setup zsh plugins: ({plugins})",
-        path="~/.zshrc",
+        path=f"{_home_dir}/.zshrc",
         replace=f"plugins=({plugins})",
-        line=r"plugins=.*",
+        line="^plugins=.*",
         present=True,
     )
 
-    found_plugin_lines = host.get_fact(facts_files.FindInFile, "~/.zshrc", "^plugins=.*")
-    if found_plugin_lines is None:
-        python.raise_exception(Exception, "Could not find line with 'plugins=' in ~/.zshrc")
-    elif len(found_plugin_lines) != 1:
-        python.raise_exception(Exception, f"Found {len(found_plugin_lines)} lines with 'plugins=' in ~/.zshrc")
-
+    if plugins_editing_result.changed:
+        python.call(
+            name="Assert zsh plugins are correct",
+            function=assert_zsh_plugins_correct,
+            _home_dir=_home_dir,
+        )
