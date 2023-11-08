@@ -1,3 +1,5 @@
 ---
 name: puppet_manager
-modules: []
+modules:
+- puppetlabs/docker
+format: rainbow
