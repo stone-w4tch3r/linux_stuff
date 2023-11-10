@@ -4,7 +4,7 @@ from pyinfra import host
 from pyinfra.facts import server
 
 from deploys.shell.deployer import deploy
-from vars import shell_vars
+from deploys.shell.vars import shell_vars
 
 
 class ShellComplexity(Enum):

@@ -18,8 +18,10 @@ def assert_zsh_plugins_correct(state, host, home_path: str) -> None:
         python.raise_exception(Exception, f"Found {len(found_plugin_lines)} lines with 'plugins=' in {home_path}/.zshrc")
 
 
-def on_change(self: OperationMeta, func: callable) -> None:
-    return func() if self.changed else None
+def on_change(operation: OperationMeta, func: callable) -> OperationMeta:
+    if operation.changed:
+        func()
+    return operation
 
 
 OperationMeta.on_change = classmethod(on_change)
@@ -34,7 +36,6 @@ def deploy(packages: list[str], plugins_str: str, home_path: str) -> None:
 
     server.user(user=host.get_fact(facts_server.User), shell="/usr/bin/zsh", _sudo=True)
 
-    (files
-     .line(path=f"{home_path}/.zshrc", replace=f"plugins=({plugins_str})", line="^plugins=.*", present=True)
-     .on_change(python.call(function=assert_zsh_plugins_correct, home_path=home_path))
-     )
+    files \
+        .line(path=f"{home_path}/.zshrc", replace=f"plugins=({plugins_str})", line="^plugins=.*", present=True) \
+        .on_change(lambda: python.call(function=assert_zsh_plugins_correct, home_path=home_path))
