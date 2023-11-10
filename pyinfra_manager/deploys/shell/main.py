@@ -1,8 +1,9 @@
-from dataclasses import dataclass
 from enum import Enum
 
-from deploys.shell.deployer.deploy import deploy
-from deploys.shell.deployer.prepare_params import prepare_params
+from pyinfra import host
+from pyinfra.facts import server
+
+from deploys.shell.deployer import deploy
 from vars import shell_vars
 
 
@@ -11,11 +12,16 @@ class ShellComplexity(Enum):
     Extended = 1
 
 
-@dataclass
-class Params:
-    shell_complexity: ShellComplexity
+def prepare_params(shell_complexity: ShellComplexity) -> tuple[list[str], str, str]:
+    return (
+        shell_vars.Packages,
+        (" ".join(shell_vars.ZshPluginsBasic)
+         if shell_complexity == ShellComplexity.Extended
+         else " ".join(shell_vars.ZshPluginsBasic + shell_vars.ZshPluginsExtended)),
+        f"/home/{host.get_fact(server.User)}",
+    )
 
 
-def deploy_shell(params: Params) -> None:
-    params = prepare_params(params.shell_complexity, shell_vars)
-    deploy(params)
+def deploy_shell(shell_complexity: ShellComplexity) -> None:
+    params = prepare_params(shell_complexity)
+    deploy(*params)

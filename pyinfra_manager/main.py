@@ -1,3 +1,3 @@
-from deploys.shell.main import deploy_shell, Params, ShellComplexity
+from deploys.shell.main import deploy_shell, ShellComplexity
 
-deploy_shell(Params(ShellComplexity.Basic))
+deploy_shell(ShellComplexity.Basic)
