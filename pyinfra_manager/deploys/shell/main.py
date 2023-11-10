@@ -16,7 +16,7 @@ def prepare_params(shell_complexity: ShellComplexity) -> tuple[list[str], str, s
     return (
         shell_vars.Packages,
         (" ".join(shell_vars.ZshPluginsBasic)
-         if shell_complexity == ShellComplexity.Extended
+         if shell_complexity == ShellComplexity.Basic
          else " ".join(shell_vars.ZshPluginsBasic + shell_vars.ZshPluginsExtended)),
         f"/home/{host.get_fact(server.User)}",
     )
