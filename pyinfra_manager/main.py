@@ -1,3 +1,3 @@
-from deploys.zsh import zsh_deployer
+from deploys.shell.main import deploy_shell, Params, ShellComplexity
 
-zsh_deployer.deploy_zsh(zsh_deployer.ZshConfig.Basic)
+deploy_shell(Params(ShellComplexity.Basic))

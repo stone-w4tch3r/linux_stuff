@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 # region dataclasses
 @dataclass
-class ZshDeployVars:
+class ShellDeployVars:
     Packages: list[str]
     AliasesBasic: list[str]
     AliasesExtended: list[str]
@@ -17,7 +17,7 @@ class ZshDeployVars:
 # endregion
 
 
-zsh_vars = ZshDeployVars(
+shell_vars = ShellDeployVars(
     Packages=[
         "git",
         "zsh",
