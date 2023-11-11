@@ -32,7 +32,7 @@ shell_vars = ShellDeployVars(
     AliasesBasic=[
         "alias cat=ccat",
         "alias less=cless",
-        'alias git_cp=echo -n commit message:  && read -r message && echo \$message | git add . && git commit -m \$message && git push',
+        'alias git_cp=echo -n commit message:  && read -r message && echo \$message | git add . && git commit -m \$message && git push',  # noqa: W605
         'eval $(thefuck -a)',
     ],
     AliasesExtended=[
