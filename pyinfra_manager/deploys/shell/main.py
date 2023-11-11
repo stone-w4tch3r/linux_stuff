@@ -65,6 +65,7 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
             path=f"{home_path}/.zshrc",
             content=aliases_block_content,
             marker="#### {mark} ALIASES BLOCK ####",
+            try_prevent_shell_expansion=True,
         )
     )
 
