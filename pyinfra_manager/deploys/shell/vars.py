@@ -21,26 +21,28 @@ shell_vars = ShellDeployVars(
     Packages=[
         "git",
         "zsh",
-        "fzf",
+        "fzf",  # for zsh-interactive-cd
+        "chroma",  # for ccat/cless
+        "micro",  # editor
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
-        "thefuck",
+        "thefuck",  # say 'fuck' and the error is fixed!
         "fortune-mod",  # correct name for 'fortune'
     ],
     AliasesBasic=[
         "alias cat=ccat",
         "alias less=cless",
         "alias git_cp='echo -n commit message:  && read -r message && echo $message | git add . && git commit -m $message && git push'",
-        "eval \"$(thefuck -a)\"",
+        'eval \$(thefuck -a)',  # noqa: W605
     ],
     AliasesExtended=[
         "alias gitignore=gi",
-        "alias codium='NODE_OPTIONS='' codium --enable-features=UseOzonePlatform --ozone-platform=wayland'",
+        "alias codium='NODE_OPTIONS='' codium --enable-features=UseOzonePlatform --ozone-platform=wayland'",  # wayland support
         "alias multipass_recreate-primary='. ~/Projects/devops/scripts/multipass/recreate_multipass_primary.sh'",
     ],
     ZshPluginsBasic=[
         "git",
-        "ag",
+        "ag",  # search
         "colored-man-pages",
         "colorize",
         "command-not-found",

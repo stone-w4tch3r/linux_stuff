@@ -17,10 +17,6 @@ def is_ohmyzsh_installed(home_path: str) -> bool:
     return host.get_fact(facts_files.Directory, f"{home_path}/.oh-my-zsh")
 
 
-def get_current_powerlevel_block_content(home_path: str) -> list[str]:
-    return host.get_fact(facts_files.Block, path=f"{home_path}/.zshrc", marker="#### {mark} POWERLEVEL BLOCK ####")
-
-
 def deploy_shell(shell_complexity: ShellComplexity) -> None:
     packages = shell_vars.Packages
     plugins_str = " ".join(shell_vars.ZshPluginsBasic) \
@@ -35,6 +31,9 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
         '# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.',
         '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh',
     ]
+    aliases_block_content = shell_vars.AliasesBasic \
+        if shell_complexity == ShellComplexity.Basic \
+        else shell_vars.AliasesBasic + shell_vars.AliasesExtended
 
     apt.update(cache_time=86400, _sudo=True)
     apt.packages(packages=packages, _sudo=True)
@@ -52,15 +51,22 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
     files.line(path=f"{home_path}/.zshrc", replace=f"plugins=({plugins_str})", line="^plugins=.*")
     files.line(path=f"{home_path}/.zshrc", replace="ZSH_THEME=\"powerlevel10k/powerlevel10k\"", line="^ZSH_THEME=.*")
 
-    # ugly hack to bypass pyinfra two-step model. Wait for v3 to fix it
-    if powerlevel_block_content != get_current_powerlevel_block_content(home_path):
-        python.call(
-            function=lambda: files.block(
-                path=f"{home_path}/.zshrc",
-                content=powerlevel_block_content,
-                marker="#### {mark} POWERLEVEL BLOCK ####",
-            )
+    # Ugly hack to bypass pyinfra two-step model. Wait for v3 to fix it
+    python.call(
+        function=lambda: files.block(
+            path=f"{home_path}/.zshrc",
+            content=powerlevel_block_content,
+            marker="#### {mark} POWERLEVEL BLOCK ####",
         )
+    )
+
+    python.call(
+        function=lambda: files.block(
+            path=f"{home_path}/.zshrc",
+            content=aliases_block_content,
+            marker="#### {mark} ALIASES BLOCK ####",
+        )
+    )
 
     if shell_complexity == ShellComplexity.Extended:
         files.directory(path="/usr/share/fonts/truetype/", present=True, _sudo=True)
