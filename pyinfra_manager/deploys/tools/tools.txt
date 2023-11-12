@@ -1,0 +1,1 @@
+ncdu neofetch mc broot tree
