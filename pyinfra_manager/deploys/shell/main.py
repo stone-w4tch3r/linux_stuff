@@ -19,21 +19,22 @@ def is_ohmyzsh_installed(home_path: str) -> bool:
 
 def deploy_shell(shell_complexity: ShellComplexity) -> None:
     packages = shell_vars.Packages
-    plugins_str = " ".join(shell_vars.ZshPluginsBasic) \
-        if shell_complexity == ShellComplexity.Basic \
-        else " ".join(shell_vars.ZshPluginsBasic + shell_vars.ZshPluginsExtended)
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     fonts_links = shell_vars.FontsLinks
     p10k_to_put = "deploys/shell/files/p10k_server.zsh" \
         if shell_complexity == ShellComplexity.Basic \
         else "deploys/shell/files/p10k_extended.zsh"
-    powerlevel_block_content = [
-        '# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.',
-        '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh',
-    ]
+    misc_lines_block_content = shell_vars.MiscLinesAtEnd
     aliases_block_content = shell_vars.AliasesBasic \
         if shell_complexity == ShellComplexity.Basic \
         else shell_vars.AliasesBasic + shell_vars.AliasesExtended
+    plugins_str = " ".join(shell_vars.ZshPluginsBasic) \
+        if shell_complexity == ShellComplexity.Basic \
+        else " ".join(shell_vars.ZshPluginsBasic + shell_vars.ZshPluginsExtended)
+    if host.get_fact(facts_server.LinuxName) == "debian":
+        plugins_str += " " + " ".join(shell_vars.DebianPlugins)
+    if host.get_fact(facts_server.LinuxName) == "ubuntu":
+        plugins_str += " " + " ".join(shell_vars.UbuntuPlugins)
 
     apt.update(cache_time=86400, _sudo=True)
     apt.packages(packages=packages, _sudo=True)
@@ -55,17 +56,18 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
     python.call(
         function=lambda: files.block(
             path=f"{home_path}/.zshrc",
-            content=powerlevel_block_content,
-            marker="#### {mark} POWERLEVEL BLOCK ####",
+            content=aliases_block_content,
+            marker="#### {mark} ALIASES BLOCK ####",
+            try_prevent_shell_expansion=True,
         )
     )
 
     python.call(
+        name="Add misc lines to end of .zshrc",
         function=lambda: files.block(
             path=f"{home_path}/.zshrc",
-            content=aliases_block_content,
-            marker="#### {mark} ALIASES BLOCK ####",
-            try_prevent_shell_expansion=True,
+            content=misc_lines_block_content,
+            marker="#### {mark} MISC LINES BLOCK ####",
         )
     )
 

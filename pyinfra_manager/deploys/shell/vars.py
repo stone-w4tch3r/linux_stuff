@@ -7,6 +7,7 @@ class ShellDeployVars:
     Packages: list[str]
     AliasesBasic: list[str]
     AliasesExtended: list[str]
+    MiscLinesAtEnd: list[str]
     ZshPluginsBasic: list[str]
     ZshPluginsExtended: list[str]
     FontsLinks: list[str]
@@ -39,6 +40,12 @@ shell_vars = ShellDeployVars(
         "alias gitignore=gi",
         "alias codium='NODE_OPTIONS='' codium --enable-features=UseOzonePlatform --ozone-platform=wayland'",  # wayland support
         "alias multipass_recreate-primary='. ~/Projects/devops/scripts/multipass/recreate_multipass_primary.sh'",
+    ],
+    MiscLinesAtEnd=[
+        '# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.',
+        '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh',
+        '# FOR SYNTAX-HIGHLIGHTING TO WORK, THIS LINE MUST LAST',
+        'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
     ],
     ZshPluginsBasic=[
         "git",
