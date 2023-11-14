@@ -4,11 +4,16 @@ return 0
 #init
 ####
 sudo apt update && sudo apt upgrade -y && sudo apt install neofetch -y
-sudo apt purge --autoremove -y libreoffice*
-sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg #kde
+sudo apt purge --autoremove -y libreoffice\*
+#kde
+sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg
 sudo apt install git curl network-manager-openvpn network-manager-sstp net-tools fortune cowsay silversearcher-ag libreoffice-calc-nogui exfatprogs -y
 sudo apt install -y vlc
-sudo snap install rider webstorm datagrip bitwarden
+sudo snap install rider --classic
+sudo snap install webstorm --classic
+sudo snap install datagrip --classic
+sudo snap install pycharm-professional --classic
+#bitwarden
 
 ####
 #setup zram
@@ -43,7 +48,7 @@ sudo dkms build hid-apple/1.0
 sudo dkms install hid-apple/1.0
 
 #set setting for keyboard:
-sudo tee -a /etc/modprobe.d/hid_apple.conf <<EOF
+sudo tee /etc/modprobe.d/hid_apple.conf <<EOF
 #options hid_apple swap_fn_leftctrl=1
 #options hid_apple swap_opt_cmd=1
 #options hid_apple fnmode=2
@@ -59,11 +64,13 @@ EOF
 sudo update-initramfs -u
 sudo modprobe -r hid_apple; sudo modprobe hid_apple
 
+cd ~
 #for remapping eject to delete, 'Input Remapper' can be used
 sudo apt install git python3-setuptools gettext
 git clone https://github.com/sezanzeb/input-remapper.git
-cd input-remapper && ./scripts/build.sh
-sudo apt install -f ./dist/input-remapper-2.0.0.deb
+cd input-remapper
+./scripts/build.sh
+sudo apt install -f ./dist/input-remapper-*.deb
 
 ####
 #install java jre for xamarin-android
@@ -92,6 +99,12 @@ Pin-Priority: -1
 echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
 
 sudo apt install firefox
+
+####
+#firefox dev
+####
+
+flatpak install --user https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/firefox-dev.flatpakref #--noninteractive
 
 ####
 #script for automatic installation/removing of firefox
@@ -134,11 +147,14 @@ sudo snap install firefox thunderbird
 
 #https://github.com/dotnet/core/issues/7699
 
+#!!! may not work
+sudo apt-get update && sudo apt-get install -y dotnet7 dotnet6
+
 ####
 #install ungoogled-chromium
 ####
-echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Lunar/ /' | sudo tee /etc/apt/sources.list.d/home:ungoogled_chromium.list
-curl -fsSL https://download.opensuse.org/repositories/home:ungoogled_chromium/Ubuntu_Lunar/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_ungoogled_chromium.gpg > /dev/null
+echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Jammy/ /' | sudo tee /etc/apt/sources.list.d/home:ungoogled_chromium.list
+curl -fsSL https://download.opensuse.org/repositories/home:ungoogled_chromium/Ubuntu_Jammy/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_ungoogled_chromium.gpg > /dev/null
 sudo apt update
 sudo apt install ungoogled-chromium
 
@@ -154,7 +170,7 @@ sudo chown root:root /tmp/onlyoffice.gpg
 sudo mv /tmp/onlyoffice.gpg /usr/share/keyrings/onlyoffice.gpg
 
 #add repos
-echo 'deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main' | sudo tee -a /etc/apt/sources.list.d/onlyoffice.list
+echo 'deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main' | sudo tee /etc/apt/sources.list.d/onlyoffice.list
 
 sudo apt-get update
 sudo apt-get install onlyoffice-desktopeditors -y
@@ -191,6 +207,21 @@ echo "STEAM_FORCE_DESKTOPUI_SCALING='2'" | sudo tee -a /etc/environment
 ####
 
 #https://dtf.ru/flood/1110882-igraem-na-linukse-ubuntu-lutris-wine-ge-custom-proton
+
+sudo add-apt-repository ppa:lutris-team/lutris -y
+sudo apt update
+sudo apt -y install lutris
+
+cd Downloads
+curl -s https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases/latest \
+| grep "browser_download_url.*tar.xz" \
+| cut -d : -f 2,3 \
+| tr -d \" \
+| wget -qi -
+
+tar -xvf wine-lutris-GE-Proton*-x86_64.tar.xz
+mkdir -p ~/.local/share/lutris/runners/wine
+mv lutris-GE-Proton*-x86_64 ~/.local/share/lutris/runners/wine/
 
 ####
 #mitmproxy
@@ -229,7 +260,7 @@ sudo apt install mono-devel -y
 
 echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ stable main" | sudo tee /etc/apt/sources.list.d/azlux.list
 sudo wget -O /usr/share/keyrings/azlux-archive-keyring.gpg  https://azlux.fr/repo.gpg
-sudo apt install -y broot
+sudo apt update && sudo apt install -y broot
 
 ####
 #vscodium
@@ -245,16 +276,62 @@ sudo apt update && sudo apt install codium
 #disable ipv6
 ####
 
-echo 1 | sudo tee -a /proc/sys/net/ipv6/conf/all/disable_ipv6
-echo 1 | sudo tee -a /proc/sys/net/ipv6/conf/default/disable_ipv6
+echo 1 | sudo tee /proc/sys/net/ipv6/conf/all/disable_ipv6
+echo 1 | sudo tee /proc/sys/net/ipv6/conf/default/disable_ipv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.d/98-disable-ipv6.conf
+net.ipv6.conf.default.disable_ipv6 = 1" | sudo tee /etc/sysctl.d/98-disable-ipv6.conf
 
 ####
 #latest yt-dlp
 ####
 
-sudo add-apt-repository ppa:tomtomtom/yt-dlp    # Add ppa repo to apt
+sudo add-apt-repository ppa:tomtomtom/yt-dlp -y # Add ppa repo to apt
 sudo apt update                                 # Update package list
-sudo apt install yt-dlp                         # Install yt-dlp
+sudo apt install yt-dlp -y                      # Install yt-dlp
 
+####
+#firefoxpwa system
+####
+
+# Install required packages for third-party repositories
+sudo apt update
+#sudo apt install debian-archive-keyring # Debian-only
+sudo apt install curl gpg apt-transport-https -y
+
+# Import GPG key and enable the repository
+curl -fsSL https://packagecloud.io/filips/FirefoxPWA/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/firefoxpwa-keyring.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/firefoxpwa-keyring.gpg] https://packagecloud.io/filips/FirefoxPWA/any any main" | sudo tee /etc/apt/sources.list.d/firefoxpwa.list > /dev/null
+
+# Refresh repositories and install the package
+sudo apt update
+sudo apt install firefoxpwa -y
+
+####
+#flatpak
+####
+
+sudo apt install flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+####
+#nekoray
+####
+
+curl -s https://api.github.com/repos/MatsuriDayo/nekoray/releases/latest \
+| grep "browser_download_url.*x64.deb" \
+| cut -d : -f 2,3 \
+| tr -d \" \
+| wget -qi -
+sudo dpkg -i nekoray*.deb
+
+####
+#enhanced bluetooth
+####
+
+LINE="Experimental = true"
+FILE="/etc/bluetooth/main.conf"
+PATTERN='\[General\]'
+grep -qF -- "$LINE" "$FILE" || sudo sed -i "/${PATTERN}/a${LINE}" "$FILE"
+sudo systemctl restart bluetooth
+sudo rfkill unblock bluetooth
+sudo systemctl restart bluetooth
