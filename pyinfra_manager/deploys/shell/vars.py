@@ -23,7 +23,7 @@ shell_vars = ShellDeployVars(
         "git",
         "zsh",
         "fzf",  # for zsh-interactive-cd
-        "chroma",  # for ccat/cless
+        "python3-pygments",  # for ccat/cless
         "micro",  # editor
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
@@ -33,13 +33,13 @@ shell_vars = ShellDeployVars(
     AliasesBasic=[
         "alias cat=ccat",
         "alias less=cless",
-        'alias git_cp=echo -n commit message:  && read -r message && echo \$message | git add . && git commit -m \$message && git push',  # noqa: W605
+        'alias git_cp="echo -n commit message:  && read -r message && echo \$message | git add . && git commit -m \$message && git push"',  # noqa: W605
         'eval $(thefuck -a)',
     ],
     AliasesExtended=[
         "alias gitignore=gi",
-        "alias codium='NODE_OPTIONS='' codium --enable-features=UseOzonePlatform --ozone-platform=wayland'",  # wayland support
-        "alias multipass_recreate-primary='. ~/Projects/devops/scripts/multipass/recreate_multipass_primary.sh'",
+        'alias codium="NODE_OPTIONS=\"\" codium --enable-features=UseOzonePlatform --ozone-platform=wayland"',  # wayland support
+        'alias multipass_recreate-primary=". ~/Projects/devops/scripts/multipass/recreate_multipass_primary.py"',
     ],
     MiscLinesAtEnd=[
         '# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.',

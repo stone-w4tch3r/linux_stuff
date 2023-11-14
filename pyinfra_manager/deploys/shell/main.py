@@ -17,6 +17,11 @@ def is_ohmyzsh_installed(home_path: str) -> bool:
     return host.get_fact(facts_files.Directory, f"{home_path}/.oh-my-zsh")
 
 
+def assert_zsh_correctly_installed(home_path: str) -> None:
+    assert host.get_fact(facts_files.File, f"{home_path}/.zshrc")
+    assert host.get_fact(facts_files.Directory, f"{home_path}/.oh-my-zsh")
+
+
 def deploy_shell(shell_complexity: ShellComplexity) -> None:
     packages = shell_vars.Packages
     home_path = f"/home/{host.get_fact(facts_server.User)}"
@@ -43,6 +48,11 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
 
     if not is_ohmyzsh_installed(home_path):
         server.shell(commands=['sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'])
+
+    python.call(function=lambda: assert_zsh_correctly_installed(home_path))
+
+    if host.get_fact(facts_server.LinuxGui) and host.data.get("supress_linux_gui_warning") is not True:
+        raise Exception("Linux GUI detected. Manually re-login to continue, than run again with supress_linux_gui_warning=True")
 
     git.repo(src="https://github.com/romkatv/powerlevel10k", dest=f"{home_path}/.oh-my-zsh/custom/themes/powerlevel10k", pull=False)
     files.put(src=p10k_to_put, dest=f"{home_path}/.p10k.zsh", mode="0644")
