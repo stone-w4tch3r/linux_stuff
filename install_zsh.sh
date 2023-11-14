@@ -5,8 +5,7 @@
 sudo apt update
 sudo apt install -y git-core zsh fzf zsh-syntax-highlighting zsh-autosuggestions thefuck || exit 1
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-chsh -s "$(which zsh)"
-sudo chsh -s "$(which zsh)"
+sudo chsh -s "$(which zsh)" "$USER"
 
 sed -i 's|plugins=.*|plugins=(git dotnet adb ag ansible chucknorris colored-man-pages colorize command-not-found docker docker-compose emoji emoji-clock extract gh gitignore hitchhiker multipass npm  pip safe-paste sudo ubuntu ufw zsh-interactive-cd)|g' ~/.zshrc
 echo 'zic_case_insensitive=true' | sudo tee -a /etc/environment #case-insensitive interactive cd
