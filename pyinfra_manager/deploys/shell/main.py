@@ -86,3 +86,7 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
         for link in fonts_links:
             filename = link.split("/")[-1].replace("%20", " ")
             files.download(src=link, dest=f"/usr/share/fonts/truetype/{filename}", mode="0644", _sudo=True)
+
+
+if __name__ == "__main__":
+    deploy_shell(ShellComplexity[host.data.shell_complexity])
