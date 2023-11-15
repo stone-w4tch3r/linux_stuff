@@ -335,3 +335,13 @@ grep -qF -- "$LINE" "$FILE" || sudo sed -i "/${PATTERN}/a${LINE}" "$FILE"
 sudo systemctl restart bluetooth
 sudo rfkill unblock bluetooth
 sudo systemctl restart bluetooth
+
+####
+#PlasmaConfManager (idk will it work)
+####
+
+# https://store.kde.org/p/1298955/
+wget -O ocs-url.deb https://ocs-dl.fra1.cdn.digitaloceanspaces.com/data/files/1467909105/ocs-url_3.1.0-0ubuntu1_amd64.deb\?response-content-disposition\=attachment%3B%2520ocs-url_3.1.0-0ubuntu1_amd64.deb\&X-Amz-Content-Sha256\=UNSIGNED-PAYLOAD\&X-Amz-Algorithm\=AWS4-HMAC-SHA256\&X-Amz-Credential\=RWJAQUNCHT7V2NCLZ2AL%2F20231115%2Fus-east-1%2Fs3%2Faws4_request\&X-Amz-Date\=20231115T060912Z\&X-Amz-SignedHeaders\=host\&X-Amz-Expires\=3600\&X-Amz-Signature\=9e427bdfbec922b3ce5b5c83041881ff99c8b090ff567bba727ef33e59d5d650
+sudo dpkg -i ocs-url.deb
+rm ocs-url.deb
+ocs-url ocs://install?url=https%3A%2F%2Ffiles04.pling.com%2Fapi%2Ffiles%2Fdownload%2Fj%2FeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE2NDQ2NjEyMjYiLCJ1IjpudWxsLCJsdCI6Imluc3RhbGwiLCJzIjoiMmRiMDFiOTMxYTViOWE5YzhiMzk1YjZlMzY4NWRiNzg2YzAyM2FjNWU5ZjA2OGYwMmIxYjFjYmFkMmE3MTczMjIzM2M0MWQ2ZjY0YThhNDM0NmEyOGE5OGIyMTUzYjA4OWI1YjRjNDZiY2JhODBiNzNkMDhiYzM1ZTQ3MTJjNzAiLCJ0IjoxNzAwMDI5NTE5LCJzdGZwIjpudWxsLCJzdGlwIjpudWxsfQ.hOjXU6dD_ZEpVwj11J2WqTNoUQpocH_bwffC7A8Zodg%2Fcom.pajuelo.plasmaConfSaver-1.6.tar.gz&type=plasma5_plasmoids&filename=com.pajuelo.plasmaConfSaver-1.6.tar.gz
