@@ -40,6 +40,8 @@ shell_vars = ShellDeployVars(
         "alias gitignore=gi",
         'alias codium="NODE_OPTIONS=\"\" codium --enable-features=UseOzonePlatform --ozone-platform=wayland"',  # wayland support
         'alias multipass_recreate-primary=". ~/Projects/devops/scripts/multipass/recreate_multipass_primary.py"',
+        'alias \?\?="gh copilot suggest -t shell"',
+        'alias \?!="gh copilot explain"',
     ],
     MiscLinesAtEnd=[
         '# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.',

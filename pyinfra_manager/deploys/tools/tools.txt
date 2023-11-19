@@ -1,1 +1,2 @@
-ncdu neofetch mc broot tree
+ncdu neofetch mc broot tree 
+gh extension install github/gh-copilot --force
