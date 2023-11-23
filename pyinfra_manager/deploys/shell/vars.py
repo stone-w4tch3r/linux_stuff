@@ -24,11 +24,9 @@ shell_vars = ShellDeployVars(
         "zsh",
         "fzf",  # for zsh-interactive-cd
         "python3-pygments",  # for ccat/cless
-        "micro",  # editor
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
         "thefuck",  # say 'fuck' and the error is fixed!
-        "fortune-mod",  # correct name for 'fortune'
     ],
     AliasesBasic=[
         "alias cat=ccat",
@@ -73,7 +71,6 @@ shell_vars = ShellDeployVars(
         "emoji",  # get emoji as $emoji[name]
         "gh",
         "gitignore",
-        "hitchhiker",
         "multipass",
     ],
     FontsLinks=[
