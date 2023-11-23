@@ -9,4 +9,6 @@ def server_upgrade():
 
 
 # main
-# server_upgrade()
+# if 'RUN_FROM_MAIN' not in host.data.override_datas.keys():
+#     print("Yay!")
+#     server_upgrade()
