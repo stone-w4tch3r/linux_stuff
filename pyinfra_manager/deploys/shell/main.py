@@ -1,3 +1,4 @@
+import time
 from enum import Enum
 
 from pyinfra import host
@@ -13,16 +14,18 @@ class ShellComplexity(Enum):
     Extended = 1
 
 
-def is_ohmyzsh_installed(home_path: str) -> bool:
+def is_ohmyzsh_installed_initially(home_path: str) -> bool:
     return host.get_fact(facts_files.Directory, f"{home_path}/.oh-my-zsh")
 
 
-def assert_zsh_correctly_installed(home_path: str) -> None:
-    assert host.get_fact(facts_files.File, f"{home_path}/.zshrc")
-    assert host.get_fact(facts_files.Directory, f"{home_path}/.oh-my-zsh")
+def assert_zsh_correctly_installed_dynamic(home_path: str) -> None:
+    assert host.reload_fact(facts_files.File, f"{home_path}/.zshrc")
+    assert host.reload_fact(facts_files.Directory, f"{home_path}/.oh-my-zsh")
 
 
-def deploy_shell(shell_complexity: ShellComplexity) -> None:
+def deploy_shell() -> None:
+    # prepare vars
+    shell_complexity = ShellComplexity[host.data.shell_complexity]
     packages = shell_vars.Packages
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     fonts_links = shell_vars.FontsLinks
@@ -41,15 +44,16 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
     if host.get_fact(facts_server.LinuxName) == "ubuntu":
         plugins_str += " " + " ".join(shell_vars.UbuntuPlugins)
 
+    # deploy
     apt.update(cache_time=86400, _sudo=True)
     apt.packages(packages=packages, _sudo=True)
 
     server.user(user=host.get_fact(facts_server.User), shell="/usr/bin/zsh", _sudo=True)
 
-    if not is_ohmyzsh_installed(home_path):
+    if not is_ohmyzsh_installed_initially(home_path):
         server.shell(commands=['sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'])
 
-    python.call(function=lambda: assert_zsh_correctly_installed(home_path))
+    python.call(function=lambda: assert_zsh_correctly_installed_dynamic(home_path))
 
     if host.get_fact(facts_server.LinuxGui) and host.data.get("supress_linux_gui_warning") is not True:
         raise Exception("Linux GUI detected. Manually re-login to continue, than run again with supress_linux_gui_warning=True")
@@ -86,7 +90,6 @@ def deploy_shell(shell_complexity: ShellComplexity) -> None:
         for link in fonts_links:
             filename = link.split("/")[-1].replace("%20", " ")
             files.download(src=link, dest=f"/usr/share/fonts/truetype/{filename}", mode="0644", _sudo=True)
-
 
 # main
 # deploy_shell(ShellComplexity[host.data.shell_complexity])
