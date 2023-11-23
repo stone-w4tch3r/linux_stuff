@@ -345,3 +345,23 @@ wget -O ocs-url.deb https://ocs-dl.fra1.cdn.digitaloceanspaces.com/data/files/14
 sudo dpkg -i ocs-url.deb
 rm ocs-url.deb
 ocs-url ocs://install?url=https%3A%2F%2Ffiles04.pling.com%2Fapi%2Ffiles%2Fdownload%2Fj%2FeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE2NDQ2NjEyMjYiLCJ1IjpudWxsLCJsdCI6Imluc3RhbGwiLCJzIjoiMmRiMDFiOTMxYTViOWE5YzhiMzk1YjZlMzY4NWRiNzg2YzAyM2FjNWU5ZjA2OGYwMmIxYjFjYmFkMmE3MTczMjIzM2M0MWQ2ZjY0YThhNDM0NmEyOGE5OGIyMTUzYjA4OWI1YjRjNDZiY2JhODBiNzNkMDhiYzM1ZTQ3MTJjNzAiLCJ0IjoxNzAwMDI5NTE5LCJzdGZwIjpudWxsLCJzdGlwIjpudWxsfQ.hOjXU6dD_ZEpVwj11J2WqTNoUQpocH_bwffC7A8Zodg%2Fcom.pajuelo.plasmaConfSaver-1.6.tar.gz&type=plasma5_plasmoids&filename=com.pajuelo.plasmaConfSaver-1.6.tar.gz
+
+####
+#swap
+####
+
+sudo dd if=/dev/zero of=/swapfile count=32 bs=GiB
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+sudo sed -i '/vgkubuntu-swap/d' /etc/fstab
+
+# delete default swap
+sudo swapoff /dev/dm-1
+sudo umount /dev/dm-1 # ??
+sudo lvremove /dev/dm-1 # ??
+sudo rm /dev/dm-1
+
+# check
+lsblk
+swapon --show
