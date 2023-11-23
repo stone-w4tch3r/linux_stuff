@@ -3,6 +3,8 @@ from deploys.shell.main import deploy_shell, ShellComplexity
 from pyinfra import host
 from pyinfra.operations import apt
 
-server_upgrade()
-deploy_shell(ShellComplexity[host.data.shell_complexity])
-apt.packages(packages=["neofetch"], _sudo=True)
+from deploys.shell_tools.main import deploy_shell_tools
+
+# server_upgrade()
+# deploy_shell()
+deploy_shell_tools()
