@@ -6,7 +6,7 @@ from pyinfra.facts import files as facts_files
 from pyinfra.facts import server as facts_server
 from pyinfra.operations import apt, server, files, git, python
 
-from deploys.shell.vars import shell_vars
+from deploys.zsh.vars import shell_vars
 from inventory_types import ShellComplexity
 
 
@@ -19,28 +19,23 @@ def assert_zsh_correctly_installed_dynamic(home_path: str) -> None:
     assert host.reload_fact(facts_files.Directory, f"{home_path}/.oh-my-zsh")
 
 
-def deploy_shell() -> None:
-    # prepare vars
+def deploy_zsh() -> None:
     shell_complexity = ShellComplexity[host.data.shell_complexity]
     packages = shell_vars.Packages
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     fonts_links = shell_vars.FontsLinks
-    p10k_to_put = "deploys/shell/files/p10k_server.zsh" \
+    p10k_to_put = "deploys/shell/files/p10k_normal.zsh" \
         if shell_complexity == ShellComplexity.Normal \
         else "deploys/shell/files/p10k_extended.zsh"
     misc_lines_block_content = shell_vars.MiscLinesAtEnd
-    aliases_block_content = shell_vars.AliasesBasic \
+    plugins_str = " ".join(shell_vars.ZshPluginsNormal) \
         if shell_complexity == ShellComplexity.Normal \
-        else shell_vars.AliasesBasic + shell_vars.AliasesExtended
-    plugins_str = " ".join(shell_vars.ZshPluginsBasic) \
-        if shell_complexity == ShellComplexity.Normal \
-        else " ".join(shell_vars.ZshPluginsBasic + shell_vars.ZshPluginsExtended)
+        else " ".join(shell_vars.ZshPluginsNormal + shell_vars.ZshPluginsExtended)
     if host.get_fact(facts_server.LinuxName) == "debian":
         plugins_str += " " + " ".join(shell_vars.DebianPlugins)
     if host.get_fact(facts_server.LinuxName) == "ubuntu":
         plugins_str += " " + " ".join(shell_vars.UbuntuPlugins)
 
-    # deploy
     apt.update(cache_time=86400, _sudo=True)
     apt.packages(packages=packages, _sudo=True)
 
@@ -62,16 +57,6 @@ def deploy_shell() -> None:
     files.line(path=f"{home_path}/.zshrc", replace=f"plugins=({plugins_str})", line="^plugins=.*")
     files.line(path=f"{home_path}/.zshrc", replace="ZSH_THEME=\"powerlevel10k/powerlevel10k\"", line="^ZSH_THEME=.*")
 
-    # Ugly hack to bypass pyinfra two-step model. Wait for v3 to fix it
-    python.call(
-        function=lambda: files.block(
-            path=f"{home_path}/.zshrc",
-            content=aliases_block_content,
-            marker="#### {mark} ALIASES BLOCK ####",
-            try_prevent_shell_expansion=True,
-        )
-    )
-
     python.call(
         name="Add misc lines to end of .zshrc",
         function=lambda: files.block(
@@ -86,6 +71,3 @@ def deploy_shell() -> None:
         for link in fonts_links:
             filename = link.split("/")[-1].replace("%20", " ")
             files.download(src=link, dest=f"/usr/share/fonts/truetype/{filename}", mode="0644", _sudo=True)
-
-# main
-# deploy_shell(ShellComplexity[host.data.shell_complexity])

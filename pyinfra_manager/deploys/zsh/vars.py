@@ -5,10 +5,8 @@ from dataclasses import dataclass
 @dataclass
 class ShellDeployVars:
     Packages: list[str]
-    AliasesBasic: list[str]
-    AliasesExtended: list[str]
     MiscLinesAtEnd: list[str]
-    ZshPluginsBasic: list[str]
+    ZshPluginsNormal: list[str]
     ZshPluginsExtended: list[str]
     FontsLinks: list[str]
     DebianPlugins: list[str]
@@ -28,26 +26,14 @@ shell_vars = ShellDeployVars(
         "zsh-autosuggestions",
         "thefuck",  # say 'fuck' and the error is fixed!
     ],
-    AliasesBasic=[
-        "alias cat=ccat",
-        "alias less=cless",
-        'alias git_cp="echo -n commit message:  && read -r message && echo \$message | git add . && git commit -m \$message && git push"',  # noqa: W605
-        'eval $(thefuck -a)',
-    ],
-    AliasesExtended=[
-        "alias gitignore=gi",
-        'alias codium="NODE_OPTIONS=\"\" codium --enable-features=UseOzonePlatform --ozone-platform=wayland"',  # wayland support
-        'alias multipass_recreate-primary="~/Projects/devops/scripts/multipass/recreate_multipass_primary.py"',
-        'alias \?\?="gh copilot suggest -t shell"',
-        'alias \?!="gh copilot explain"',
-    ],
     MiscLinesAtEnd=[
+        'eval $(thefuck -a)',
         '# To customize prompt, run "p10k configure" or edit ~/.p10k.zsh.',
         '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh',
         '# FOR SYNTAX-HIGHLIGHTING TO WORK, THIS LINE MUST LAST',
         'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
     ],
-    ZshPluginsBasic=[
+    ZshPluginsNormal=[
         "git",
         "ag",  # search
         "colored-man-pages",
