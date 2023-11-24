@@ -4,6 +4,7 @@ from pyinfra.operations import apt, server, python
 from pyinfra.facts import apt as facts_apt
 from pyinfra import host
 
+from deploys.shell_tools.vars import tools_vars
 from inventory_types import ShellComplexity
 
 
@@ -14,28 +15,13 @@ def is_source_added(source_url_regex: str) -> bool:
 
 def deploy_shell_tools() -> None:
     shell_complexity = ShellComplexity[host.data.shell_complexity]
-    packages_from_ubuntu_basic = [
-        "tree",
-        "mc",
-        "neofetch",
-        "ncdu",
-        "micro",
-        "net-tools",
-        "silversearcher-ag",
-    ]
-    packages_from_ubuntu_extended = [
-        "python3-venv",
-        "python3-pip",
-    ]
-    packages_from_repos_basic = [
-        "broot",
-    ]
-    packages_from_repos_extended = [
-        "gh",
-    ]
-    packages = packages_from_ubuntu_basic + packages_from_repos_basic \
+    packages = tools_vars.PackagesFromUbuntuNormal + tools_vars.PackagesFromReposNormal \
         if shell_complexity == ShellComplexity.Normal \
-        else packages_from_ubuntu_basic + packages_from_repos_basic + packages_from_ubuntu_extended + packages_from_repos_extended
+        else (tools_vars.PackagesFromUbuntuNormal
+              + tools_vars.PackagesFromReposNormal
+              + tools_vars.PackagesFromUbuntuExtended
+              + tools_vars.PackagesFromReposExtended
+              )
 
     if "gh" in packages and not is_source_added(r".*cli\.github\.com.*"):
         server.shell(

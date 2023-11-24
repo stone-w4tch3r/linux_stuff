@@ -16,7 +16,7 @@ class ShellDeployVars:
 # endregion
 
 
-shell_vars = ShellDeployVars(
+zsh_vars = ShellDeployVars(
     Packages=[
         "git",
         "zsh",

@@ -3,7 +3,7 @@ from pyinfra.facts import files as facts_files
 from pyinfra.facts import server as facts_server
 from pyinfra.operations import apt, server, files, git, python
 
-from deploys.zsh.vars import shell_vars
+from deploys.zsh.vars import zsh_vars
 from inventory_types import ShellComplexity
 
 
@@ -18,20 +18,20 @@ def assert_zsh_correctly_installed_dynamic(home_path: str) -> None:
 
 def deploy_zsh() -> None:
     shell_complexity = ShellComplexity[host.data.shell_complexity]
-    packages = shell_vars.Packages
+    packages = zsh_vars.Packages
     home_path = f"/home/{host.get_fact(facts_server.User)}"
-    fonts_links = shell_vars.FontsLinks
+    fonts_links = zsh_vars.FontsLinks
     p10k_to_put = "deploys/shell/files/p10k_normal.zsh" \
         if shell_complexity == ShellComplexity.Normal \
         else "deploys/shell/files/p10k_extended.zsh"
-    misc_lines_block_content = shell_vars.MiscLinesAtEnd
-    plugins_str = " ".join(shell_vars.ZshPluginsNormal) \
+    misc_lines_block_content = zsh_vars.MiscLinesAtEnd
+    plugins_str = " ".join(zsh_vars.ZshPluginsNormal) \
         if shell_complexity == ShellComplexity.Normal \
-        else " ".join(shell_vars.ZshPluginsNormal + shell_vars.ZshPluginsExtended)
+        else " ".join(zsh_vars.ZshPluginsNormal + zsh_vars.ZshPluginsExtended)
     if host.get_fact(facts_server.LinuxName) == "debian":
-        plugins_str += " " + " ".join(shell_vars.DebianPlugins)
+        plugins_str += " " + " ".join(zsh_vars.DebianPlugins)
     if host.get_fact(facts_server.LinuxName) == "ubuntu":
-        plugins_str += " " + " ".join(shell_vars.UbuntuPlugins)
+        plugins_str += " " + " ".join(zsh_vars.UbuntuPlugins)
 
     apt.update(cache_time=86400, _sudo=True)
     apt.packages(packages=packages, _sudo=True)

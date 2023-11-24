@@ -3,14 +3,14 @@ from dataclasses import dataclass
 
 # region dataclasses
 @dataclass
-class ShellDeployVars:
+class AliasesVars:
     AliasesNormal: list[str]
     AliasesExtended: list[str]
 
 
 # endregion
 
-shell_vars = ShellDeployVars(
+aliases_vars = AliasesVars(
     # noqa: W605
     AliasesNormal=[
         'f=fuck',
