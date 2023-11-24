@@ -2,5 +2,6 @@ from enum import Enum
 
 
 class ShellComplexity(Enum):
-    Basic = 0
+    Minimal = -1
+    Normal = 0
     Extended = 1

@@ -34,7 +34,7 @@ def deploy_shell_tools():
         "gh",
     ]
     packages = packages_from_ubuntu_basic + packages_from_repos_basic \
-        if shell_complexity == ShellComplexity.Basic \
+        if shell_complexity == ShellComplexity.Normal \
         else packages_from_ubuntu_basic + packages_from_repos_basic + packages_from_ubuntu_extended + packages_from_repos_extended
 
     if "gh" in packages and not is_source_added(r".*cli\.github\.com.*"):

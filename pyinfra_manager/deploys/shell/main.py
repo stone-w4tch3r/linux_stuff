@@ -26,14 +26,14 @@ def deploy_shell() -> None:
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     fonts_links = shell_vars.FontsLinks
     p10k_to_put = "deploys/shell/files/p10k_server.zsh" \
-        if shell_complexity == ShellComplexity.Basic \
+        if shell_complexity == ShellComplexity.Normal \
         else "deploys/shell/files/p10k_extended.zsh"
     misc_lines_block_content = shell_vars.MiscLinesAtEnd
     aliases_block_content = shell_vars.AliasesBasic \
-        if shell_complexity == ShellComplexity.Basic \
+        if shell_complexity == ShellComplexity.Normal \
         else shell_vars.AliasesBasic + shell_vars.AliasesExtended
     plugins_str = " ".join(shell_vars.ZshPluginsBasic) \
-        if shell_complexity == ShellComplexity.Basic \
+        if shell_complexity == ShellComplexity.Normal \
         else " ".join(shell_vars.ZshPluginsBasic + shell_vars.ZshPluginsExtended)
     if host.get_fact(facts_server.LinuxName) == "debian":
         plugins_str += " " + " ".join(shell_vars.DebianPlugins)
