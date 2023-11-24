@@ -12,7 +12,7 @@ def is_source_added(source_url_regex: str) -> bool:
     return any([re.match(source_url_regex, url) for url in source_urls])
 
 
-def deploy_shell_tools():
+def deploy_shell_tools() -> None:
     shell_complexity = ShellComplexity[host.data.shell_complexity]
     packages_from_ubuntu_basic = [
         "tree",
