@@ -11,6 +11,6 @@ from deploys.shell_tools.main import deploy_shell_tools
 # server_upgrade()
 # deploy_zsh()
 # deploy_shell_tools()
-# deploy_server_user()
+deploy_server_user()
 # deploy_aliases()
 deploy_ssh()
