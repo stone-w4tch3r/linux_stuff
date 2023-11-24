@@ -1,6 +1,3 @@
-import time
-from enum import Enum
-
 from pyinfra import host
 from pyinfra.facts import files as facts_files
 from pyinfra.facts import server as facts_server
