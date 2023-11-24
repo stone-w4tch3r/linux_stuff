@@ -1,3 +1,5 @@
+from pyinfra.facts import files
+
 from deploys.server_upgrade.main import server_upgrade
 from deploys.server_user.main import deploy_server_user
 from deploys.shell_aliases.main import deploy_aliases
@@ -8,9 +10,9 @@ from pyinfra.operations import apt
 
 from deploys.shell_tools.main import deploy_shell_tools
 
-# server_upgrade()
+server_upgrade()
+deploy_server_user()
 # deploy_zsh()
 # deploy_shell_tools()
-deploy_server_user()
 # deploy_aliases()
 deploy_ssh()
