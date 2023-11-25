@@ -5,7 +5,7 @@ from pyinfra.facts import apt as facts_apt
 from pyinfra import host
 
 from deploys.shell_tools.shell_tools_vars import tools_vars
-from inventory_types import ShellComplexity
+from inventory_types import InstanceComplexity
 
 
 def is_source_added(source_url_regex: str) -> bool:
@@ -14,9 +14,9 @@ def is_source_added(source_url_regex: str) -> bool:
 
 
 def deploy_shell_tools() -> None:
-    shell_complexity = ShellComplexity[host.data.shell_complexity]
+    shell_complexity = InstanceComplexity[host.data.shell_complexity]
     packages = tools_vars.PackagesFromUbuntuNormal + tools_vars.PackagesFromReposNormal \
-        if shell_complexity == ShellComplexity.Normal \
+        if shell_complexity == InstanceComplexity.Normal \
         else (tools_vars.PackagesFromUbuntuNormal
               + tools_vars.PackagesFromReposNormal
               + tools_vars.PackagesFromUbuntuExtended
