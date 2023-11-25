@@ -63,6 +63,7 @@ def deploy_zsh() -> None:
             path=f"{home_path}/.zshrc",
             content=misc_lines_block_content,
             marker="#### {mark} MISC LINES BLOCK ####",
+            try_prevent_shell_expansion=True,
         )
     )
 
