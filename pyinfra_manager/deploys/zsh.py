@@ -1,3 +1,5 @@
+import os
+
 from pyinfra import host
 from pyinfra.facts import files as facts_files
 from pyinfra.facts import server as facts_server
@@ -21,9 +23,10 @@ def deploy_zsh() -> None:
     packages = zsh_vars.Packages
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     fonts_links = zsh_vars.FontsLinks
-    p10k_to_put = "deploys/zsh/files/p10k_normal.zsh" \
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    p10k_to_put = f"{current_dir}/files/p10k_normal.zsh" \
         if instance_complexity == InstanceComplexity.Normal \
-        else "deploys/zsh/files/p10k_extended.zsh"
+        else f"{current_dir}/files/p10k_extended.zsh"
     misc_lines_block_content = zsh_vars.MiscLinesAtEnd
     plugins_str = " ".join(zsh_vars.ZshPluginsNormal) \
         if instance_complexity == InstanceComplexity.Normal \
