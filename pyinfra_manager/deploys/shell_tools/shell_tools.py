@@ -4,7 +4,7 @@ from pyinfra.operations import apt, server, python
 from pyinfra.facts import apt as facts_apt
 from pyinfra import host
 
-from deploys.shell_tools.vars import tools_vars
+from deploys.shell_tools.shell_tools_vars import tools_vars
 from inventory_types import ShellComplexity
 
 
