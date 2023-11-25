@@ -14,9 +14,9 @@ def is_source_added(source_url_regex: str) -> bool:
 
 
 def deploy_shell_tools() -> None:
-    shell_complexity = InstanceComplexity[host.data.shell_complexity]
+    instance_complexity = InstanceComplexity[host.data.instance_complexity]
     packages = tools_vars.PackagesFromUbuntuNormal + tools_vars.PackagesFromReposNormal \
-        if shell_complexity == InstanceComplexity.Normal \
+        if instance_complexity == InstanceComplexity.Normal \
         else (tools_vars.PackagesFromUbuntuNormal
               + tools_vars.PackagesFromReposNormal
               + tools_vars.PackagesFromUbuntuExtended

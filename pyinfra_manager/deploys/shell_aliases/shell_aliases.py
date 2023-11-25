@@ -7,10 +7,10 @@ from inventory_types import InstanceComplexity
 
 
 def deploy_aliases() -> None:
-    shell_complexity = InstanceComplexity[host.data.shell_complexity]
+    instance_complexity = InstanceComplexity[host.data.instance_complexity]
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     aliases_block_content = aliases_vars.AliasesNormal \
-        if shell_complexity == InstanceComplexity.Normal \
+        if instance_complexity == InstanceComplexity.Normal \
         else aliases_vars.AliasesNormal + aliases_vars.AliasesExtended
 
     python.call(

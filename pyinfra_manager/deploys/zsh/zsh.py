@@ -17,16 +17,16 @@ def assert_zsh_correctly_installed_dynamic(home_path: str) -> None:
 
 
 def deploy_zsh() -> None:
-    shell_complexity = InstanceComplexity[host.data.shell_complexity]
+    instance_complexity = InstanceComplexity[host.data.instance_complexity]
     packages = zsh_vars.Packages
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     fonts_links = zsh_vars.FontsLinks
     p10k_to_put = "deploys/shell/files/p10k_normal.zsh" \
-        if shell_complexity == InstanceComplexity.Normal \
+        if instance_complexity == InstanceComplexity.Normal \
         else "deploys/shell/files/p10k_extended.zsh"
     misc_lines_block_content = zsh_vars.MiscLinesAtEnd
     plugins_str = " ".join(zsh_vars.ZshPluginsNormal) \
-        if shell_complexity == InstanceComplexity.Normal \
+        if instance_complexity == InstanceComplexity.Normal \
         else " ".join(zsh_vars.ZshPluginsNormal + zsh_vars.ZshPluginsExtended)
     if host.get_fact(facts_server.LinuxName) == "debian":
         plugins_str += " " + " ".join(zsh_vars.DebianPlugins)
@@ -63,7 +63,7 @@ def deploy_zsh() -> None:
         )
     )
 
-    if shell_complexity == InstanceComplexity.Extended:
+    if instance_complexity == InstanceComplexity.Extended:
         files.directory(path="/usr/share/fonts/truetype/", present=True, _sudo=True)
         for link in fonts_links:
             filename = link.split("/")[-1].replace("%20", " ")
