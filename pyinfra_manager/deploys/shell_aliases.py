@@ -2,7 +2,7 @@ from pyinfra import host
 from pyinfra.operations import files, python
 from pyinfra.facts import server as facts_server
 
-from deploys.shell_aliases.shell_aliases_vars import aliases_vars
+from deploys.shell_aliases_vars import aliases_vars
 from inventory_types import InstanceComplexity
 
 

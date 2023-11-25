@@ -3,7 +3,7 @@ from pyinfra.facts import files as facts_files
 from pyinfra.facts import server as facts_server
 from pyinfra.operations import apt, server, files, git, python
 
-from deploys.zsh.zsh_vars import zsh_vars
+from deploys.zsh_vars import zsh_vars
 from inventory_types import InstanceComplexity
 
 

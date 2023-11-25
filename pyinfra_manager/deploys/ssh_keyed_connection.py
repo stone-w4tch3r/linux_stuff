@@ -33,7 +33,7 @@ def generate_and_install_ssh_key_locally(ssh_key: str, local_known_hosts: str) -
     run_locally(f"chmod 600 {ssh_key}")
 
 
-def deploy_ssh() -> None:
+def deploy_ssh_keyed_connection() -> None:
     local_known_hosts = f"/home/{os.getlogin()}/.ssh/known_hosts"
     overwrite = host.data.get("overwrite_ssh") is True
     ssh_key = host.data.ssh_key_path
