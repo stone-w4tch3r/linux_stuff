@@ -21,9 +21,9 @@ def deploy_zsh() -> None:
     packages = zsh_vars.Packages
     home_path = f"/home/{host.get_fact(facts_server.User)}"
     fonts_links = zsh_vars.FontsLinks
-    p10k_to_put = "deploys/shell/files/p10k_normal.zsh" \
+    p10k_to_put = "deploys/zsh/files/p10k_normal.zsh" \
         if instance_complexity == InstanceComplexity.Normal \
-        else "deploys/shell/files/p10k_extended.zsh"
+        else "deploys/zsh/files/p10k_extended.zsh"
     misc_lines_block_content = zsh_vars.MiscLinesAtEnd
     plugins_str = " ".join(zsh_vars.ZshPluginsNormal) \
         if instance_complexity == InstanceComplexity.Normal \
