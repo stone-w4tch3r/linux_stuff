@@ -277,6 +277,8 @@ sudo apt update && sudo apt install codium
 ####
 
 https://github.com/VSCodium/vscodium/discussions/1487
+https://github.com/VSCodium/vscodium/issues/1546#issuecomment-1840142391 #copilot chat settings
+# note: extension may be incompatible, try download older version
 
 ####
 #disable ipv6
