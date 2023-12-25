@@ -273,6 +273,12 @@ echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https:/
 sudo apt update && sudo apt install codium
 
 ####
+#copilot for codium
+####
+
+https://github.com/VSCodium/vscodium/discussions/1487
+
+####
 #disable ipv6
 ####
 
