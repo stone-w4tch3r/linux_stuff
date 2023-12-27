@@ -147,8 +147,37 @@ sudo snap install firefox thunderbird
 
 #https://github.com/dotnet/core/issues/7699
 
+#error after switching from ubuntu source to microsoft online
+#https://stackoverflow.com/questions/73753672/a-fatal-error-occurred-the-folder-usr-share-dotnet-host-fxr-does-not-exist
+
 #!!! may not work
+#official packages from ubuntu
 sudo apt-get update && sudo apt-get install -y dotnet7 dotnet6
+
+#microsoft distributed packages conflicts with them, so if switching origin:
+
+#add microsoft repo (works only on ubuntu, NOT derrivative)
+declare repo_version=$(if command -v lsb_release &> /dev/null; then lsb_release -r -s; else grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"'; fi)
+wget https://packages.microsoft.com/config/ubuntu/$repo_version/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+
+#prevent conflicts
+sudo apt purge "dotnet*" "aspnetcore*" "netstandard*" --autoremove -y
+echo '
+Package: dotnet* aspnet* netstandard*
+Pin: origin "ru.archive.ubuntu.com", "security.ubuntu.com"
+Pin-Priority: -10
+
+Package: dotnet* aspnet* netstandard*
+Pin: origin "packages.microsoft.com"
+Pin-Priority: 1001
+' | sudo tee /etc/apt/preferences.d/dotnet-microsoft-source
+sudo apt update
+
+#install
+sudo apt install dotnet-sdk-6.0 dotnet-sdk-7.0 dotnet-sdk-8.0 -y
+
 
 ####
 #install ungoogled-chromium
