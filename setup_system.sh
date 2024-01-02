@@ -7,13 +7,20 @@ sudo apt update && sudo apt upgrade -y && sudo apt install neofetch -y
 sudo apt purge --autoremove -y libreoffice\*
 #kde
 sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg
+
+####
+#apps
+####
+
 sudo apt install git curl network-manager-openvpn network-manager-sstp net-tools fortune cowsay silversearcher-ag libreoffice-calc-nogui exfatprogs -y
-sudo apt install -y vlc
+sudo apt install -y vlc qbittorrent
 sudo snap install rider --classic
 sudo snap install webstorm --classic
 sudo snap install datagrip --classic
 sudo snap install pycharm-professional --classic
 #bitwarden
+
+flatpak install com.discordapp.Discord com.mattermost.Desktop org.telegram.desktop us.zoom.Zoom
 
 ####
 #setup zram
