@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2317
+
 return 0
 
 ####
@@ -18,6 +21,7 @@ sudo snap install rider --classic
 sudo snap install webstorm --classic
 sudo snap install datagrip --classic
 sudo snap install pycharm-professional --classic
+sudo snap install multipass
 #bitwarden
 
 flatpak install com.discordapp.Discord com.mattermost.Desktop org.telegram.desktop us.zoom.Zoom
@@ -143,6 +147,37 @@ sudo apt update
 sudo apt install brave-browser
 
 ####
+#appimagelauncher
+####
+
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:appimagelauncher-team/stable -y
+sudo apt update
+sudo apt install appimagelauncher -y
+
+# config
+
+echo "
+[AppImageLauncher]
+%23%20enable_daemon=true
+ask_to_move=true
+destination=/home/user1/AppImages
+" | tee -a ~/.config/appimagelauncher.cfg
+
+####
+#appimage apps
+####
+
+# open video downloader
+cd ~/Downloads || exit 1
+curl -s https://api.github.com/repos/jely2002/youtube-dl-gui/releases/latest \
+| grep "browser_download_url.*OpenVideo.*.AppImage" \
+| cut -d : -f 2,3 \
+| tr -d \" \
+| wget -qi -
+ail-cli integrate OpenVideo*.AppImage
+
+####
 #reinstall pre-installed apps for normal versions
 ####
 sudo apt purge --autoremove -y firefox thunderbird
@@ -264,7 +299,7 @@ sudo apt install gamemode -y
 
 #mangohud (build from source for compatibility with goverlay)
 git clone https://github.com/flightlessmango/MangoHud
-cd MangoHud
+cd MangoHud 
 ./build.sh build
 ./build.sh install
 
@@ -345,6 +380,38 @@ sudo apt update && sudo apt install codium
 https://github.com/VSCodium/vscodium/discussions/1487
 https://github.com/VSCodium/vscodium/issues/1546#issuecomment-1840142391 #copilot chat settings
 # note: extension may be incompatible, try download older version
+
+# note: manuall install may be required
+
+COMPATIBLE_VERSION="1.143.0"
+cd ~/Downloads || exit 1
+curl -o copilot-extension.gz https://marketplace.visualstudio.com/_apis/public/gallery/publishers/GitHub/vsextensions/copilot/"$COMPATIBLE_VERSION"/vspackage
+gunzip copilot-extension.gz
+mv copilot-extension copilot-extension.vsix
+codium --install-extension copilot-extension.vsix
+
+COMPATIBLE_CHAT_VERSION="0.12.2023120701"
+curl -o copilot-chat-extension.gz https://marketplace.visualstudio.com/_apis/public/gallery/publishers/GitHub/vsextensions/copilot-chat/"$COMPATIBLE_CHAT_VERSION"/vspackage
+gunzip copilot-chat-extension.gz
+mv copilot-chat-extension copilot-chat-extension.vsix
+codium --install-extension copilot-chat-extension.vsix
+
+CONFIG_PATH="/usr/share/codium/resources/app/product.json" # may be /opt/vscodium-bin/resources/app/product.json
+CONFIG_LINE1='"GitHub.copilot": [	"inlineCompletionsAdditions", "interactive", "interactiveUserActions", "terminalDataWriteEvent"	],'
+CONFIG_LINE2='"GitHub.copilot-nightly": ["inlineCompletionsAdditions", "interactive", "interactiveUserActions",	"terminalDataWriteEvent" ],'
+CONFIG_LINE3='"GitHub.copilot-chat": [ "handleIssueUri", "interactive", "interactiveUserActions", "terminalDataWriteEvent", "terminalExecuteCommandEvent", "terminalSelection", "terminalQuickFixProvider", "chatProvider", "chatVariables", "chatAgents2", "chatAgents2Additions", "defaultChatAgent", "readonlyMessage", "mappedEditsProvider", "aiRelatedInformation", "codeActionAI", "findTextInFiles", "textSearchProvider", "scmInputBoxValueProvider", "contribSourceControlInputBoxMenu" ],'
+CONFIG_LINE4='"trustedExtensionAuthAccess": [ "vscode.git", "vscode.github", "github.remotehub", "github.vscode-pull-request-github", "github.codespaces", "github.copilot", "github.copilot-chat" ],'
+CONFIG_LINE5='"trustedExtensionProtocolHandlers": [ "vscode.git", "vscode.github-authentication" ],'
+
+# be sure to call only once or check result !!!
+mv "$CONFIG_PATH" "$CONFIG_PATH".bak
+
+sudo sed -i "/\"GitHub.copilot\"/c\    $CONFIG_LINE1" "$CONFIG_PATH"
+sudo sed -i "/\"GitHub.copilot-nightly\"/c\    $CONFIG_LINE2" "$CONFIG_PATH"
+sudo sed -i "/\"GitHub.copilot-chat\"/c\    $CONFIG_LINE3" "$CONFIG_PATH"
+
+sudo sed -i "/commit/i \ \ $CONFIG_LINE4" "$CONFIG_PATH"
+sudo sed -i "/commit/i \ \ $CONFIG_LINE5" "$CONFIG_PATH"
 
 ####
 #disable ipv6
