@@ -171,11 +171,12 @@ destination=/home/user1/AppImages
 # open video downloader
 cd ~/Downloads || exit 1
 curl -s https://api.github.com/repos/jely2002/youtube-dl-gui/releases/latest \
-| grep "browser_download_url.*OpenVideo.*.AppImage" \
+| grep "browser_download_url.*Open-Video.*.AppImage" \
 | cut -d : -f 2,3 \
 | tr -d \" \
 | wget -qi -
-ail-cli integrate OpenVideo*.AppImage
+ail-cli integrate Open-Video*.AppImage
+chmod +x ~/AppImages/Open-Video-Downloader-2.4.0_9b4b22f353be840d6352b9542634daa9.AppImage
 
 ####
 #reinstall pre-installed apps for normal versions
