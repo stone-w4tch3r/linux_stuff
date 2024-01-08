@@ -12,7 +12,7 @@ sudo apt purge --autoremove -y ktorrent kmines ksudoku kmahjongg
 #apps
 ####
 
-sudo apt install git curl network-manager-openvpn network-manager-sstp net-tools fortune cowsay silversearcher-ag libreoffice-calc-nogui exfatprogs -y
+sudo apt install git curl network-manager-openvpn network-manager-sstp net-tools fortune cowsay silversearcher-ag libreoffice-\*-nogui exfatprogs -y
 sudo apt install -y vlc qbittorrent
 sudo snap install rider --classic
 sudo snap install webstorm --classic
@@ -73,11 +73,11 @@ sudo modprobe -r hid_apple; sudo modprobe hid_apple
 
 cd ~
 #for remapping eject to delete, 'Input Remapper' can be used
-sudo apt install git python3-setuptools gettext
+sudo apt install git python3-setuptools gettext -y
 git clone https://github.com/sezanzeb/input-remapper.git
 cd input-remapper
 ./scripts/build.sh
-sudo apt install -f ./dist/input-remapper-*.deb
+sudo apt install -f ./dist/input-remapper-*.deb -y
 
 ####
 #install java jre for xamarin-android
@@ -111,7 +111,7 @@ sudo apt install firefox
 #firefox dev
 ####
 
-flatpak install --user https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/firefox-dev.flatpakref #--noninteractive
+flatpak install --noninteractive https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/firefox-dev.flatpakref
 
 ####
 #script for automatic installation/removing of firefox
@@ -192,7 +192,7 @@ sudo apt install dotnet-sdk-6.0 dotnet-sdk-7.0 dotnet-sdk-8.0 -y
 echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Jammy/ /' | sudo tee /etc/apt/sources.list.d/home:ungoogled_chromium.list
 curl -fsSL https://download.opensuse.org/repositories/home:ungoogled_chromium/Ubuntu_Jammy/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_ungoogled_chromium.gpg > /dev/null
 sudo apt update
-sudo apt install ungoogled-chromium
+sudo apt install ungoogled-chromium -y
 
 ####
 #install onlyoffice
@@ -258,6 +258,36 @@ curl -s https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases/lat
 tar -xvf wine-lutris-GE-Proton*-x86_64.tar.xz
 mkdir -p ~/.local/share/lutris/runners/wine
 mv lutris-GE-Proton*-x86_64 ~/.local/share/lutris/runners/wine/
+
+#gamemode
+sudo apt install gamemode -y
+
+#mangohud (build from source for compatibility with goverlay)
+git clone https://github.com/flightlessmango/MangoHud
+cd MangoHud
+./build.sh build
+./build.sh install
+
+#goverlay (apt version is outdated, needed to build)
+#!!! ensure `QT_QPA_PLATFORM=wayland` set in /etc/environment
+
+sudo apt install -y libqt5pas1 libqt5pas-dev lcl qtwayland5 #dependencies
+sudo make install
+
+####
+#gnome + qt
+####
+
+sudo add-apt-repository ppa:ubuntuhandbook1/qgnomeplatform -y
+
+sudo apt-get install -y sudo apt install qt5-gtk-platformtheme qt6-gtk-platformtheme adwaita-qt qgnomeplatform-qt5
+
+ENV_FILE='/etc/environment'
+LINE1='QT_QPA_PLATFORM=wayland'
+LINE2='QT_QPA_PLATFORMTHEME=gnome'
+grep -qF -- "$LINE1" "$ENV_FILE" || echo "$LINE1" | sudo tee -a "$ENV_FILE"
+grep -qF -- "$LINE2" "$ENV_FILE" || echo "$LINE2" | sudo tee -a "$ENV_FILE"
+
 
 ####
 #mitmproxy
