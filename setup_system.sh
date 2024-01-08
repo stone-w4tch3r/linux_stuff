@@ -176,7 +176,8 @@ curl -s https://api.github.com/repos/jely2002/youtube-dl-gui/releases/latest \
 | tr -d \" \
 | wget -qi -
 ail-cli integrate Open-Video*.AppImage
-chmod +x ~/AppImages/Open-Video-Downloader-2.4.0_9b4b22f353be840d6352b9542634daa9.AppImage
+chmod +x ~/AppImages/Open-Video*.AppImage
+open ~/AppImages/Open-Video*.AppImage # needed manual launch to create desktop shortcut
 
 ####
 #reinstall pre-installed apps for normal versions
