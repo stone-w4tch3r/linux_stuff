@@ -190,6 +190,7 @@ sudo snap install firefox thunderbird
 ####
 
 #https://github.com/dotnet/core/issues/7699
+#https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#register-the-microsoft-package-repository
 
 #error after switching from ubuntu source to microsoft online
 #https://stackoverflow.com/questions/73753672/a-fatal-error-occurred-the-folder-usr-share-dotnet-host-fxr-does-not-exist
@@ -200,8 +201,8 @@ sudo apt-get update && sudo apt-get install -y dotnet7 dotnet6
 
 #microsoft distributed packages conflicts with them, so if switching origin:
 
-#add microsoft repo (works only on ubuntu, NOT derrivative)
 declare repo_version=$(if command -v lsb_release &> /dev/null; then lsb_release -r -s; else grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"'; fi)
+# repo_version="22.04" # set manually if ubuntu-based distro
 wget https://packages.microsoft.com/config/ubuntu/$repo_version/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
