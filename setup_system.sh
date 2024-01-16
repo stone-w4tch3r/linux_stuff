@@ -494,17 +494,24 @@ ocs-url ocs://install?url=https%3A%2F%2Ffiles04.pling.com%2Fapi%2Ffiles%2Fdownlo
 #swap
 ####
 
-sudo dd if=/dev/zero of=/swapfile count=32 bs=GiB
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-sudo sed -i '/vgkubuntu-swap/d' /etc/fstab
-
-# delete default swap
+# delete default swap on separate partition
 sudo swapoff /dev/dm-1
 sudo umount /dev/dm-1 # ??
 sudo lvremove /dev/dm-1 # ??
 sudo rm /dev/dm-1
+
+# delete default swap in /
+sudo swapoff /swapfile
+sudo rm /swapfile
+
+# create new and enable
+sudo dd if=/dev/zero of=/swapfile count=32 bs=GiB
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo sed -i '/vgkubuntu-swap/d' /etc/fstab
+sudo sed -i '/swapfile/d' /etc/fstab
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+sudo swapon /swapfile
 
 # check
 lsblk
