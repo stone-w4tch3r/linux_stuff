@@ -134,6 +134,22 @@ echo 'MOZ_ENABLE_WAYLAND=1' | sudo tee -a /etc/environment
 source /etc/environment
 
 ####
+#firefox pwa extension runtime
+####
+
+# Install required packages for third-party repositories
+sudo apt update
+sudo apt install curl gpg apt-transport-https -y
+
+# Import GPG key and enable the repository
+curl -fsSL https://packagecloud.io/filips/FirefoxPWA/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/firefoxpwa-keyring.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/firefoxpwa-keyring.gpg] https://packagecloud.io/filips/FirefoxPWA/any any main" | sudo tee /etc/apt/sources.list.d/firefoxpwa.list > /dev/null
+
+# Refresh repositories and install the package
+sudo apt update
+sudo apt install firefoxpwa -y
+
+####
 #brave install
 ####
 sudo apt install curl
