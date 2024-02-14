@@ -75,13 +75,8 @@ EOF
 sudo update-initramfs -u
 sudo modprobe -r hid_apple; sudo modprobe hid_apple
 
-cd ~
 #for remapping eject to delete, 'Input Remapper' can be used
-sudo apt install git python3-setuptools gettext -y
-git clone https://github.com/sezanzeb/input-remapper.git
-cd input-remapper
-./scripts/build.sh
-sudo apt install -f ./dist/input-remapper-*.deb -y
+sudo apt install input-remapper -y
 
 ####
 #install java jre for xamarin-android
