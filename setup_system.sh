@@ -418,7 +418,7 @@ CONFIG_LINE4='"trustedExtensionAuthAccess": [ "vscode.git", "vscode.github", "gi
 CONFIG_LINE5='"trustedExtensionProtocolHandlers": [ "vscode.git", "vscode.github-authentication" ],'
 
 # be sure to call only once or check result !!!
-mv "$CONFIG_PATH" "$CONFIG_PATH".bak
+sudo cp "$CONFIG_PATH" "$CONFIG_PATH".bak
 
 sudo sed -i "/\"GitHub.copilot\"/c\    $CONFIG_LINE1" "$CONFIG_PATH"
 sudo sed -i "/\"GitHub.copilot-nightly\"/c\    $CONFIG_LINE2" "$CONFIG_PATH"
