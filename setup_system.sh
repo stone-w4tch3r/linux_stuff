@@ -60,14 +60,11 @@ sudo dkms install hid-apple/1.0
 
 #set setting for keyboard:
 sudo tee /etc/modprobe.d/hid_apple.conf <<EOF
-#options hid_apple swap_fn_leftctrl=1
-#options hid_apple swap_opt_cmd=1
-#options hid_apple fnmode=2
 options hid_apple iso_layout=0
 options hid_apple fnmode=2
 options hid_apple swap_fn_leftctrl=1
 options hid_apple swap_opt_cmd=1
-options hid_apple rightalt_as_rightctrl=1
+#options hid_apple rightalt_as_rightctrl=1
 #options hid_apple ejectcd_as_delete=1
 EOF
 
