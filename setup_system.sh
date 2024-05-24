@@ -75,6 +75,9 @@ sudo modprobe -r hid_apple; sudo modprobe hid_apple
 #for remapping eject to delete, 'Input Remapper' can be used
 sudo apt install input-remapper -y
 
+#fedora:
+sudo systemctl enable --now input-remapper
+
 ####
 #install java jre for xamarin-android
 ####
