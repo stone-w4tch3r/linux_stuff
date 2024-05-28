@@ -269,6 +269,13 @@ sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/shiftkey-package
 
 sudo apt update && sudo apt install github-desktop -y
 
+#fedora
+
+sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
+sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
+
+sudo dnf install github-desktop
+
 ####
 #github cli
 ####
