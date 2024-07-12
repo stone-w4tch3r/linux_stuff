@@ -538,3 +538,10 @@ sudo swapon /swapfile
 # check
 lsblk
 swapon --show
+
+####
+# trash-cli
+####
+
+sudo apt install trash-cli -y
+# trash-put file
