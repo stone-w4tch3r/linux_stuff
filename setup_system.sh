@@ -158,7 +158,7 @@ sudo apt update
 sudo apt install brave-browser
 
 ####
-#appimagelauncher
+#appimagelauncher (or use https://github.com/mijorus/gearlever, or official yet unreleased appimaged)
 ####
 
 sudo apt install software-properties-common -y
