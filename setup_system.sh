@@ -27,6 +27,17 @@ sudo snap install multipass
 flatpak install com.discordapp.Discord com.mattermost.Desktop org.telegram.desktop us.zoom.Zoom
 
 ####
+# flatpak IDEs
+####
+
+# rider
+flatpak install flathub com.jetbrains.Rider
+flatpak install org.freedesktop.Sdk.Extension.dotnet8 # SDK
+flatpak override --user com.jetbrains.Rider --env=FLATPAK_ENABLE_SDK_EXT="dotnet8" # enable dotnet for rider
+# than download host-spawn into container and use it as shell executable https://github.com/1player/host-spawn/releases
+
+
+####
 #setup zram
 ####
 
