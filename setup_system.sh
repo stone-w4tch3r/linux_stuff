@@ -79,15 +79,20 @@ options hid_apple swap_opt_cmd=1
 #options hid_apple ejectcd_as_delete=1
 EOF
 
-#apply config
+#apply config: ubuntu
 sudo update-initramfs -u
+# fedora:
+sudo dracut -f
+
+
 sudo modprobe -r hid_apple; sudo modprobe hid_apple
 
 #for remapping eject to delete, 'Input Remapper' can be used
 sudo apt install input-remapper -y
 
 #fedora:
-sudo systemctl enable --now input-remapper
+sduo dnf install -y input-remapper
+sudo systemctl enable input-remapper
 
 ####
 #install java jre for xamarin-android
