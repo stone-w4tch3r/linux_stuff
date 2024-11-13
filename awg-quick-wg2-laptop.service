@@ -1,0 +1,14 @@
+[Unit]
+Description=AmneziaWG via awg-quick for wg2-laptop
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Adjust the path to config file
+ExecStart=/usr/bin/awg-quick up /etc/amnezia/amneziawg/wg2-laptop.conf
+ExecStop=/usr/bin/awg-quick down /etc/amnezia/amneziawg/wg2-laptop.conf
+
+[Install]
+WantedBy=multi-user.target
