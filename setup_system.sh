@@ -45,6 +45,8 @@ flatpak install flathib com.jetbrains.WebStorm
 flatpak install org.freedesktop.Sdk.Extension.node22
 flatpak override --user com.jetbrains.WebStorm --env=FLATPAK_ENABLE_SDK_EXT="node22"
 
+# continue config access:
+flatpak override --user com.jetbrains.WebStorm --filesystem=home/.continue
 
 ####
 #setup zram
