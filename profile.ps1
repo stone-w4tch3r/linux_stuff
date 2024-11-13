@@ -204,3 +204,5 @@ Set-PSReadLineKeyHandler -Key ')',']','}' `
 #     Write-Host("`n>") -nonewline -foregroundcolor DarkCyan
 #     return " "
 # }
+
+iex "$(thefuck --alias)"
