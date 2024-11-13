@@ -30,11 +30,20 @@ flatpak install com.discordapp.Discord com.mattermost.Desktop org.telegram.deskt
 # flatpak IDEs
 ####
 
+# download host-spawn and use it as shell executable https://github.com/1player/host-spawn
+wget https://github.com/1player/host-spawn/releases/latest/download/host-spawn-x86_64
+mv host-spawn-x86_64 ~/.local/bin/
+chmod +x ~/.local/bin/host-spawn-x86_64
+
 # rider
 flatpak install flathub com.jetbrains.Rider
 flatpak install org.freedesktop.Sdk.Extension.dotnet8 # SDK
 flatpak override --user com.jetbrains.Rider --env=FLATPAK_ENABLE_SDK_EXT="dotnet8" # enable dotnet for rider
-# than download host-spawn into container and use it as shell executable https://github.com/1player/host-spawn/releases
+
+# webstorm
+flatpak install flathib com.jetbrains.WebStorm
+flatpak install org.freedesktop.Sdk.Extension.node22
+flatpak override --user com.jetbrains.WebStorm --env=FLATPAK_ENABLE_SDK_EXT="node22"
 
 
 ####
