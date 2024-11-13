@@ -1,0 +1,12 @@
+[Unit]
+Description=Memory Swap Logger Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/env python3 ~/memory_swap_logger.py
+WorkingDirectory=~
+Restart=always
+
+[Install]
+WantedBy=default.target
+
