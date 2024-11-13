@@ -313,6 +313,32 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 && sudo apt install gh -y
 
 ####
+#git authenticate
+####
+
+# interactive authentication
+gh auth login
+
+# setup credentials
+gh auth setup-git
+
+# set ~/.gitconfig
+user=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user | jq -r .login)
+email=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | jq -r ".[0].email")
+echo "Setting $user <$email> as the default Git user..."
+git config --global user.name "$user"
+git config --global user.email "$email"
+
+# powershell version:
+'
+$user = (gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user | ConvertFrom-Json).login
+$email = ((gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | ConvertFrom-Json)[1].email)
+Write-Host "Setting $user <$email> as the default Git user..."
+git config --global user.name $user
+git config --global user.email $email
+'
+
+####
 #steam scaling
 ####
 
