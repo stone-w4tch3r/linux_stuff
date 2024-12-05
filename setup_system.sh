@@ -341,6 +341,12 @@ git config --global user.email $email
 '
 
 ####
+#git set line endings
+####
+
+git config --global core.autocrlf input
+
+####
 #steam scaling
 ####
 
