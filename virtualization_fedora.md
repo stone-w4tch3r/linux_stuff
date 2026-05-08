@@ -20,7 +20,7 @@
 sudo dnf install @virtualization virtio-win
 
 # Front‑ends
-sudo dnf install virt-manager gnome-boxes cockpit cockpit-machines quickemu quickgui virt-lightning
+sudo dnf install virt-manager gnome-boxes cockpit cockpit-machines quickemu virt-lightning
 sudo systemctl enable --now libvirtd.socket cockpit.socket
 sudo usermod -aG libvirt $USER && newgrp libvirt
 ```
@@ -33,7 +33,7 @@ sudo rpm-ostree install \
   qemu-kvm libvirt-daemon-kvm libvirt-daemon-config-network \
   virt-install virt-manager virt-viewer \
   libguestfs-tools guestfs-browser virt-top \
-  quickgui quickemu cockpit cockpit-machines
+  quickemu cockpit cockpit-machines
 
 # GUI via Flatpak
 flatpak install flathub org.gnome.Boxes \
